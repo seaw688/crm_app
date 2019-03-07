@@ -3,6 +3,7 @@ from django.views import View
 from django.shortcuts import render
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import redirect
+from django.contrib.auth import logout
 
 class LoginView(View):
     def get(self, request, *args, **kwargs):
@@ -16,3 +17,11 @@ class LoginView(View):
         if form.is_valid():
             return redirect('/index/')
         return render(request, 'login.html', context={'form': form})
+
+class LogoutView(View):
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            logout(request)
+            return redirect('login_page')
+        else:
+            return redirect('/index/')
