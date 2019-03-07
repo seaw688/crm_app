@@ -7,13 +7,12 @@ from django.shortcuts import redirect
 class LoginView(View):
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            pass
-            #return redirect()
+            return redirect('/index/')
         form  = AuthenticationForm
         return render(request,'login.html',context={'form':form})
 
     def post(self,request, *args, **kwargs):
         form=AuthenticationForm(data=request.POST)
         if form.is_valid():
-            return HttpResponse('ok')
+            return redirect('/index/')
         return render(request, 'login.html', context={'form': form})

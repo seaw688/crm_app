@@ -44,11 +44,15 @@
                     {% csrf_token %}
                     
                     {% if form.non_field_errors%}
+
+                    {% for text in form.non_field_errors %}
                     <div class="alert alert-danger" role="alert">
-                            {{ form.non_field_errors }}
+                            {{ text }}
 
                         </div>
+                    {%endfor%}
                     {%endif%}
+
 
                     {% for hidden_field in form.hidden_fields %}
                         {{ hidden_field.errors }}
