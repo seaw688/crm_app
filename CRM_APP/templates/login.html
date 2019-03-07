@@ -42,7 +42,13 @@
 
                 <form action="/login/" method="post" >
                     {% csrf_token %}
-                    {{ form.non_field_errors }}
+                    
+                    {% if form.non_field_errors%}
+                    <div class="alert alert-danger" role="alert">
+                            {{ form.non_field_errors }}
+
+                        </div>
+                    {%endif%}
 
                     {% for hidden_field in form.hidden_fields %}
                         {{ hidden_field.errors }}
@@ -50,36 +56,18 @@
                     {% endfor %}
 
                     {% for field in form.visible_fields %}
+
                     <div class="form-group">
-
-                            <input class="form-control form-control-lg" id="{{field.name}}" type="text"
+                            <input class="form-control form-control-lg" id="{{field.name}}"
                              placeholder="{% if field.name == "username" %}Email{% else %}{{field.name|title}}{% endif %}"
-                             autocomplete="off" name="{{field.name}}">
-
-                    {% if field.errors %}
-                    <div class="invalid-feedback">
-                        {{ field.errors }}
-                    </div>    
-                    {% endif %}
+                             autocomplete="on" name="{{field.name}}" type="{{field.field.widget.input_type}}">
                     </div>
-
-
+                    
                     {% endfor %}
-                        
-                    {% if form.errors %}
-                    <div class="invalid-feedback">
-                    {% for error in form.errors%}
-                    {{error}}
-                    {%endfor%}
-
-                    </div>    
-                    {% endif %}
-
 
                     <button type="submit" class="btn btn-primary btn-lg btn-block">Sign in</button>
                 </form>
             </div>
-
 
 
             <div class="card-footer bg-white p-0  ">
@@ -90,7 +78,6 @@
                 </div>
             </div>
         </div>
-    </div>
   
     <!-- ============================================================== -->
     <!-- end login page  -->
