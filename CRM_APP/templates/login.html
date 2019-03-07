@@ -58,16 +58,17 @@
                     {% for field in form.visible_fields %}
 
                     <div class="form-group">
-                            <input class="form-control form-control-lg" id="{{field.name}}"
+                            <input class="form-control form-control-lg" id="{{field.name}}" type="{{field.field.widget.input_type}}"
                              placeholder="{% if field.name == "username" %}Email{% else %}{{field.name|title}}{% endif %}"
-                             autocomplete="on" name="{{field.name}}" type="{{field.field.widget.input_type}}">
+                             autocomplete="off" name="{{field.name}}">
                     </div>
-                    
                     {% endfor %}
 
                     <button type="submit" class="btn btn-primary btn-lg btn-block">Sign in</button>
                 </form>
             </div>
+            </div>
+
 
 
             <div class="card-footer bg-white p-0  ">
