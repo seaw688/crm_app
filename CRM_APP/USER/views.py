@@ -25,3 +25,9 @@ class LogoutView(View):
             return redirect('login_page')
         else:
             return redirect('/index/')
+
+
+class SignUpView(View):
+    def get(self, request, *args, **kwargs):
+        return render(request,'sign-up.html')
+

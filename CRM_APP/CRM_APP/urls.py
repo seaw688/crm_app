@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path
 
 from USER.urls import urlpatterns as user_urls
+from MAIN.urls import urlpatterns as main_urls
 from django.conf.urls.static import static
 from django.conf import settings
 
@@ -24,4 +25,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 ]
 
-urlpatterns = urlpatterns + user_urls + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns = urlpatterns + \
+              user_urls + \
+              main_urls + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
