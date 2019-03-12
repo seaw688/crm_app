@@ -1,6 +1,7 @@
 from django.db import models
 from CRM_APP import settings
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 
 UserModel = get_user_model()
 
@@ -11,9 +12,9 @@ def project_logo_upload_path(instance, filename):
 
 class Project(models.Model):
     title = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=100,unique=True)
+    slug = models.SlugField(max_length=100, unique=True)
     description = models.CharField(max_length=2000)
-    logo = models.ImageField(upload_to=project_logo_upload_path )
+    logo = models.ImageField(upload_to=project_logo_upload_path)
     created = models.DateTimeField(auto_now=True)
 
     def __str__(self):
@@ -54,6 +55,32 @@ class Task(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='project_tasks')
     created = models.DateTimeField(auto_now=True)
     executor = models.ForeignKey(UserModel, on_delete=models.SET_NULL, null=True, related_name='user_tasks')
+    creator = models.ForeignKey(UserModel, on_delete=models.SET_NULL, null=True, related_name='created_tasks')
+    note = models.CharField(max_length=300, blank=True)
+    deadline = models.DateTimeField(blank=True,null=True)
 
     def __str__(self):
-        return 'Task: {0} № {1}'.format(self.slug,self.pk)
+        return 'Task: {0} № {1}'.format(self.slug, self.pk)
+
+
+class TaskComment(models.Model):
+    text = models.CharField(max_length=300)
+    created = models.DateTimeField(auto_now=True)
+    commentator = models.ForeignKey(UserModel, on_delete=models.SET_NULL, null=True, related_name='user_comments')
+    task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='task_comments')
+
+
+def task_file_upload_path(instance, filename):
+    return str(settings.MEDIA_ROOT + '/projects/{0}/files/{1}'.format(instance.task.project.slug, filename))
+
+
+class TaskFile(models.Model):
+    task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='task_files')
+    file = models.FileField(upload_to=task_file_upload_path)
+
+
+class TimeLog(models.Model):
+    tracker = models.ForeignKey(UserModel, on_delete=models.SET_NULL, null=True, related_name='user_time_logs')
+    time = models.DecimalField(max_digits=5, decimal_places=1, default=0, null=True)
+    comment = models.CharField(max_length=300, blank=True, null=True)
+    date = models.DateTimeField(blank=True,null=True)
