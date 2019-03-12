@@ -84,3 +84,5 @@ class TimeLog(models.Model):
     time = models.DecimalField(max_digits=5, decimal_places=1, default=0, null=True)
     comment = models.CharField(max_length=300, blank=True, null=True)
     date = models.DateTimeField(blank=True,null=True)
+
+
