@@ -4,17 +4,10 @@ from  django.contrib.auth import get_user_model
 
 UserModel = get_user_model()
 
-# class CustomUserAdmin(UserAdmin):
-#     fieldsets = UserAdmin.fieldsets + (
-#         ('Personal info', {'fields': ('birth','avatar','position')}),
-#     )
-#
-#     model = UserModel
 
 class CustomUserAdmin(UserAdmin):
-    fieldsets = UserAdmin.fieldsets + (
-        ('Personal info', {'fields': ('birth','avatar','position')}),
-    )
+    fieldsets = UserAdmin.fieldsets
+    fieldsets[1][1]['fields'] += ('birth','avatar','position',)
 
     model = UserModel
 
