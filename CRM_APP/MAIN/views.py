@@ -17,7 +17,7 @@ class IndexView(View):
         # return render(request,'default.html')
 
 
-@method_decorator(permission_required('MAIN.add_project', raise_exception=True), name='dispatch')
+@method_decorator(permission_required(('MAIN.add_project'), raise_exception=True), name='dispatch')
 @method_decorator(login_required, name='dispatch')
 class ProjectsView(ListView):
     model = Project

@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model, password_validation
+from django.contrib.auth.models import Group
 
 UserModel = get_user_model()
 
@@ -9,6 +10,8 @@ class LoginForm(forms.Form):
 
 
 class SignUpForm(forms.ModelForm):
+    first_name = forms.CharField(label='First name', required=True, max_length=30)
+    last_name = forms.CharField(label='Last name', required=True, max_length=30)
     username = forms.CharField(label="Username", required=True, min_length=8, max_length=20)
     email = forms.EmailField(label='Email',required=True)
     password1 = forms.CharField(label="Password", required=True, strip=False, widget=forms.PasswordInput)
@@ -16,7 +19,7 @@ class SignUpForm(forms.ModelForm):
 
     class Meta:
         model = UserModel
-        fields =  ('username','email')
+        fields =  ('username','email','first_name','last_name')
 
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")
@@ -42,9 +45,17 @@ class SignUpForm(forms.ModelForm):
                 self.add_error('password2', error)
 
 
-    def save(self, commit=True):
+    def save(self,group, commit=True):
         user = super().save(commit=False)
         user.set_password(self.cleaned_data["password1"])
         if commit:
             user.save()
+
+        if group:
+            try:
+                group = Group.objects.get(name=group)
+                user.groups.add(group)
+            except Group.DoesNotExist:
+                pass
+
         return user

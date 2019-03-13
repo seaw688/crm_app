@@ -1,8 +1,7 @@
 from django.http import HttpResponse
 from django.views import View
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm
-from django.shortcuts import redirect
 from django.contrib.auth import logout,login
 from USER.forms import SignUpForm
 
@@ -37,7 +36,7 @@ class SignUpView(View):
     def post(self, request, *args, **kwargs):
         form = SignUpForm(data=request.POST)
         if form.is_valid():
-            form.save(commit=True)
+            form.save(commit=True,group='ADMIN_GROUP')
             return redirect('login_page')
         return render(request, 'sign-up.html', context={'form': form})
 
