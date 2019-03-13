@@ -1,9 +1,9 @@
 from django.http import HttpResponse
 from django.views import View
 from django.shortcuts import render
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import redirect
-from django.contrib.auth import logout
+from django.contrib.auth import logout,login
 from USER.forms import SignUpForm
 
 class LoginView(View):
@@ -16,6 +16,7 @@ class LoginView(View):
     def post(self,request, *args, **kwargs):
         form=AuthenticationForm(data=request.POST)
         if form.is_valid():
+            login(request,form.get_user())
             return redirect('/index/')
         return render(request, 'login.html', context={'form': form})
 
