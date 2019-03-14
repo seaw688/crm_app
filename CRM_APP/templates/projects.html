@@ -7,7 +7,27 @@
 
 {% for project in projects %}
 
-<div class="card">{{project.title}} </div>
+
+
+
+
+<div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+<div class="card">
+    <div>
+     <img src="{{project.logo.url}}" class="card-img-top img-fluid " style="object-fit: cover; max-height: 160px;" alt="...">
+     <div  style="margin-left: 20%; margin-top: -4px; "  class="d-inline-flex p-2 bg-primary text-white rounded" >{{project.title}}</div>
+
+    </div>
+<div class="card-body">
+<p class="card-text">{{project.description}}</p>
+<a href="#" class="btn btn-primary">Go somewhere</a>
+</div>
+</div>
+</div>
+
+
+
 
 {% endfor %}
+
 {% endblock %}

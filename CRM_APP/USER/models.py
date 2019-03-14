@@ -8,7 +8,7 @@ def user_avatar_upload_path(instance, filename):
 
 class User(AbstractUser):
     email = models.EmailField(unique=True)
-    birth = models.DateTimeField(null=True)
+    birth = models.DateTimeField(null=True,blank=True)
     avatar = models.ImageField(upload_to=user_avatar_upload_path,blank=True,null=True)
     position = models.CharField(max_length=30,null=True,blank=True)
 
