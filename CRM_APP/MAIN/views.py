@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from MAIN.models import Task, Project
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import permission_required, login_required
-
+from MAIN.utils import group_required
 
 class IndexView(View):
     def get(self, request, *args, **kwargs):
@@ -17,8 +17,9 @@ class IndexView(View):
         # return render(request,'default.html')
 
 
-@method_decorator(permission_required(('MAIN.add_project'), raise_exception=True), name='dispatch')
+#@method_decorator(permission_required(('MAIN.add_project'), raise_exception=True), name='dispatch')
 @method_decorator(login_required, name='dispatch')
+@method_decorator(group_required(('ADMIN'), raise_exception=True), name='dispatch')
 class ProjectsView(ListView):
     model = Project
     template_name = "test.html"
