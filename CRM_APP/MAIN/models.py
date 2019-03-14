@@ -16,6 +16,8 @@ class Project(models.Model):
     description = models.CharField(max_length=2000)
     logo = models.ImageField(upload_to=project_logo_upload_path)
     created = models.DateTimeField(auto_now=True)
+    creator = models.ForeignKey(UserModel, on_delete=models.SET_NULL, null=True, related_name='created_projects')
+
 
     def __str__(self):
         return '{}'.format(self.slug)
