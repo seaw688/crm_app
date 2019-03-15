@@ -8,45 +8,44 @@
 {% for project in projects %}
 
 
-
-
-
 <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
     <div class="card">
         <div style="position:relative;">
-            <img src="{{project.logo.url}}" class="card-img-top img-fluid " style="object-fit: cover; max-height: 130px; min-height: 130px;" alt="...">
-            <div style="margin-right: 20%; position:absolute; bottom:0px ; left:0px;"  class="d-inline-flex p-2 bg-primary text-white rounded" >{{project.title}}</div>
-        </div>
-
-        <div class="card-block">
-
-            <div class="card-body">
-
-                <p class="card-text" style="margin-top: 5%;">{{project.description}}</p>
-
-                <a href="#" class="btn btn-primary btn-xs">More/Edit</a>
-
-                <a href="#" class="btn-account btn-xs" role="button">
-                    <span class="user-avatar">
-                        <img src="{{project.creator.avatar.url}}" alt="User Avatar" class="user-avatar-lg rounded-circle">
-                    </span>
-
-                    <div class="account-summary">
-                        <h5 class="account-name">{{project.creator.first_name}} {{project.creator.last_name}}</h5>
-                        <span class="account-description">@{{project.creator.username}}</span>
-                    </div>
-                </a>
-
+            <img src="{{project.logo.url}}" class="card-img-top img-fluid "
+                 style="object-fit: cover; max-height: 130px; min-height: 130px;" alt="...">
+            <div style="margin-right: 20%; position:absolute; bottom:0px ; left:0px;"
+                 class="d-inline-flex p-2 bg-primary text-white rounded">{{project.title}}
             </div>
         </div>
+
+
+        <div class="card-body" style="min-height: 5rem;">
+            <div class="card-text">{{project.description}}</div>
+
+
+        </div>
+
+        <div class="card-footer">
+
+
+            <div class="row">
+                <div class="col-8 col-sm-6">
+                    Level 2: .col-8 .col-sm-6
+                </div>
+                <div class="col-4 col-sm-6">
+                    Level 2: .col-4 .col-sm-6
+                </div>
+            </div>
+
+
+        </div>
+
 
     </div>
 </div>
 
 
-
-
-
 {% endfor %}
 
 {% endblock %}
+
