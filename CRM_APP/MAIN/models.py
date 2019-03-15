@@ -7,7 +7,7 @@ UserModel = get_user_model()
 
 
 def project_logo_upload_path(instance, filename):
-    return str(settings.MEDIA_ROOT + '/projects/{0}/logo/{1}'.format(instance.slug, filename))
+    return 'projects/{0}/logo/{1}'.format(instance.slug, filename)
 
 
 class Project(models.Model):
