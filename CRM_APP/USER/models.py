@@ -4,7 +4,7 @@ from CRM_APP import settings
 
 
 def user_avatar_upload_path(instance, filename):
-    return str(settings.MEDIA_ROOT + '/users/{0}/avatar/{1}'.format(instance.username, filename))
+    return 'users/{0}/avatar/{1}'.format(instance.username, filename)
 
 class User(AbstractUser):
     email = models.EmailField(unique=True)
