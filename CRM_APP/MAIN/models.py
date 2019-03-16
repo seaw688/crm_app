@@ -13,7 +13,7 @@ def project_logo_upload_path(instance, filename):
 class Project(models.Model):
     title = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100, unique=True)
-    description = models.CharField(max_length=2000)
+    description = models.CharField(max_length=200)
     logo = models.ImageField(upload_to=project_logo_upload_path)
     created = models.DateTimeField(auto_now=True)
     creator = models.ForeignKey(UserModel, on_delete=models.SET_NULL, null=True, related_name='created_projects')
@@ -49,7 +49,7 @@ TASK_PRIORITY = (
 class Task(models.Model):
     title = models.CharField(max_length=100, )
     slug = models.SlugField(max_length=100, unique=True)
-    description = models.CharField(max_length=2000)
+    description = models.CharField(max_length=300)
     kind = models.CharField(max_length=20, choices=TASK_TYPES, default=TASK_TYPES[0][0])
     status = models.CharField(max_length=20, choices=TASK_STATUSES, default=TASK_STATUSES[0][0])
     priority = models.CharField(max_length=20, choices=TASK_PRIORITY, default=TASK_PRIORITY[0][0])
