@@ -9,7 +9,7 @@
 
 
 <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-    <div class="card" style="min-height: 20rem;">
+    <div class="card" style="min-height: 22rem;">
         <div style="position:relative;">
             <img src="{{project.logo.url}}" class="card-img-top img-fluid "
                  style="object-fit: cover; max-height: 130px; min-height: 130px;" alt="...">
@@ -22,29 +22,28 @@
         <div class="card-body" style="overflow: hidden;">
             <div class="card-text">{{project.description}}</div>
 
-
         </div>
 
         <div class="card-footer">
 
 
-            <div class="row">
-                <div class="col-8 col-sm-6">
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-                <div class="col-4 col-sm-6">
-                    <a href="#" class="btn-account" role="button">
-                    <span class="user-avatar">
-                         <img src="{{project.creator.avatar.url}}" alt="User Avatar" class="user-avatar-lg rounded-circle">
-                        </span>
-                        <div class="account-summary">
-                            <h5 class="account-name">{{project.creator.first_name}} {{project.creator.last_name}}</h5>
-                            <span class="account-description">@{{project.creator.username}}</span>
-                        </div>
-                    </a>
-                </div>
-            </div>
+            <div>
 
+                            <h6 style="margin-bottom: 0px;">Created {{project.created|date:"d F Y"}} by:</h6>
+
+            <div><a href="#" class="btn-account" role="button">
+
+
+                <img src="{{project.creator.avatar.url}}" alt="User Avatar" class="user-avatar-lg rounded-circle">
+
+                <div class="account-summary">
+                    <span class="account-description">@{{project.creator.username}}</span>
+                    <h5 class="account-name">{{project.creator.first_name}} {{project.creator.last_name}}</h5>
+                    <h6  class="account-name">{{project.creator.position}}</h6>
+
+                </div>
+            </a></div>
+                 </div>
 
         </div>
 
@@ -57,3 +56,31 @@
 
 {% endblock %}
 
+
+            <a href="#" class="btn btn-primary btn-md float-right">More/Edt</a>
+
+
+<a href="#" class="btn-account" role="button">
+                    <span class="user-avatar">
+                         <img src="{{project.creator.avatar.url}}" alt="User Avatar"
+                              class="user-avatar-lg rounded-circle">
+                        </span>
+    <div class="account-summary">
+        <h5 class="account-name">{{project.creator.first_name}} {{project.creator.last_name}}</h5>
+        <span class="account-description">@{{project.creator.username}}</span>
+    </div>
+</a>
+
+
+<a href="#" class="btn-account" role="button">
+                <h6 style="margin-bottom: auto;">Created {{project.created|date:"d F Y"}} by:</h6>
+
+                <img src="{{project.creator.avatar.url}}" alt="User Avatar" class="user-avatar-lg rounded-circle">
+
+                <div class="account-summary">
+                    <span class="account-description">@{{project.creator.username}}</span>
+                    <h5 class="account-name">{{project.creator.first_name}} {{project.creator.last_name}}</h5>
+                    <h6  class="account-name">{{project.creator.position}}</h6>
+                </div>
+
+            </a>
