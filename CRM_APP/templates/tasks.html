@@ -12,23 +12,23 @@
     <div class="card">
         <div class="card-header" style="padding: 0;">
 
-            <div class="row">
+            <div class="row ">
 
                 <div class="col">
 
                     <span class="badge badge-success">In progress</span>
                 </div>
 
-                <div class="col">
+                <div class="col justify-content-center" style=" padding: 0;">
 
-                    <span class="mr-2"> <span class="badge-dot badge-brand"></span>HIGH</span>
+                    <span class="mr-2" style="white-space: nowrap;"> <span class="badge-dot badge-brand"></span>HIGH</span>
                 </div>
 
 
                 <div class="col">
                     <span class="badge badge-success float-right"
-                          style="padding-bottom: 2px; background-color: #5889ff; margin: 0; white-space: nowrap;">Bug <i
-                            class="fas fa-bug"></i></span>
+                          style="padding-bottom: 2px; background-color: #5889ff; margin: 0; white-space: nowrap;">Feature<i
+                            class="fas fa-tag"></i></span>
 
                 </div>
 
@@ -45,11 +45,6 @@
                     <small class="text-muted"><a href="/projects/{{task.project.slug}}/"><i class="fas fa-server"></i>
                         {{task.project.title}}</a> /<a
                             href="/tasks/{{task.slug}}/"> <i class="fas fa-list"></i> task: {{task.id}}</a></small>
-                </div>
-
-                <div class="col">
-
-                    <small class="float-right">Deadline: {{task.deadline|date:"d F Y"}}</small>
                 </div>
 
             </div>
@@ -96,7 +91,7 @@
 
 <span class="badge badge-success float-right" style="background-color: #5889ff; margin: 0; white-space: nowrap;">Feature <i
         class="fas fa-tag"></i></span>
-<span class="badge badge-success float-right" style="background-color: #5889ff; margin: 0; white-space: nowrap;">Feature <i
+<span class="badge badge-success float-right" style="background-color: #5889ff; margin: 0; white-space: nowrap;">Bug <i
         class="fas fa-bug"></i></span>
 
 
