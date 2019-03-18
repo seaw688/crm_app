@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.views import View
-from django.views.generic import ListView
+from django.views.generic import ListView,DetailView
 from django.shortcuts import render, redirect
 from MAIN.models import Task, Project
 from django.utils.decorators import method_decorator
@@ -18,8 +18,26 @@ class IndexView(View):
 
 
 @method_decorator(login_required, name='dispatch')
-@method_decorator(group_required(('ADMIN'), raise_exception=True), name='dispatch')
+#@method_decorator(group_required(('ADMIN'), raise_exception=True), name='dispatch')
 class ProjectsView(ListView):
     model = Project
     template_name = "projects.html"
     context_object_name = 'projects'
+
+
+@method_decorator(login_required, name='dispatch')
+#@method_decorator(group_required(('ADMIN'), raise_exception=True), name='dispatch')
+class ProjectsDetailView(DetailView):
+    model = Project
+    template_name = "project-detail.html"
+    context_object_name = 'project'
+
+
+
+@method_decorator(login_required, name='dispatch')
+#@method_decorator(group_required(('ADMIN'), raise_exception=True), name='dispatch')
+class TasksView(ListView):
+    model = Task
+    template_name = "tasks.html"
+    context_object_name = 'tasks'
+
