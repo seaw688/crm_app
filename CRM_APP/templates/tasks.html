@@ -10,7 +10,7 @@
 
 <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12" style="min-width:300px">
     <div class="card">
-        <div class="card-header" style="padding: 0;" >
+        <div class="card-header" style="padding: 0;">
 
             <div class="row">
 
@@ -19,47 +19,43 @@
                     <span class="badge badge-success">In progress</span>
                 </div>
 
-                 <div class="col">
+                <div class="col">
 
                     <span class="mr-2"> <span class="badge-dot badge-brand"></span>HIGH</span>
                 </div>
 
 
+                <div class="col">
+                    <span class="badge badge-success float-right"
+                          style="padding-bottom: 2px; background-color: #5889ff; margin: 0; white-space: nowrap;">Bug <i
+                            class="fas fa-bug"></i></span>
 
-                 <div class="col" >
-                <span class="badge badge-success float-right" style="padding-bottom: 2px; background-color: #5889ff; margin: 0; white-space: nowrap;">Bug <i class="fas fa-bug"></i></span>
-
-                 </div>
+                </div>
 
             </div>
-
-
-
-
 
 
         </div>
 
 
         <div class="card-body" style="padding-top: 0.25rem;">
-              <div class="row" style="">
+            <div class="row" style="">
 
-                 <div class="col">
-                     <small class="text-muted" ><a href="/projects/{{task.project.slug}}/"><i class="fas fa-server"></i> {{task.project.title}}</a> /<a
+                <div class="col">
+                    <small class="text-muted"><a href="/projects/{{task.project.slug}}/"><i class="fas fa-server"></i>
+                        {{task.project.title}}</a> /<a
                             href="/tasks/{{task.slug}}/"> <i class="fas fa-list"></i> task: {{task.id}}</a></small>
-                 </div>
+                </div>
 
-                  <div class="col">
+                <div class="col">
 
                     <small class="float-right">Deadline: {{task.deadline|date:"d F Y"}}</small>
                 </div>
 
-              </div>
+            </div>
 
 
-
-
-             <div class="row" style="">
+            <div class="row" style="">
 
                 <div class="col">
                     <h5 class="card-title"><i class="fas fa-hashtag"></i>{{task.title}}</h5>
@@ -67,11 +63,24 @@
 
             </div>
 
-             <div class="row" style="">
+            <div class="row" style="">
 
 
             </div>
 
+            <p>
+
+  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+    Button with data-target
+  </button>
+</p>
+
+
+           <div class="collapse" id="collapseExample">
+  <div class="card card-body">
+    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+  </div>
+</div>
 
 
         </div>
@@ -85,10 +94,10 @@
 {% endblock %}
 
 
-<span class="badge badge-success float-right" style="background-color: #5889ff; margin: 0; white-space: nowrap;">Feature <i class="fas fa-tag"></i></span>
-<span class="badge badge-success float-right" style="background-color: #5889ff; margin: 0; white-space: nowrap;">Feature <i class="fas fa-bug"></i></span>
+<span class="badge badge-success float-right" style="background-color: #5889ff; margin: 0; white-space: nowrap;">Feature <i
+        class="fas fa-tag"></i></span>
+<span class="badge badge-success float-right" style="background-color: #5889ff; margin: 0; white-space: nowrap;">Feature <i
+        class="fas fa-bug"></i></span>
 
 
-
-
- <i class="fas fa-list"></i>
+<i class="fas fa-list"></i>
