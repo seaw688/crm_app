@@ -73,7 +73,7 @@ class TaskComment(models.Model):
 
 
 def task_file_upload_path(instance, filename):
-    return str(settings.MEDIA_ROOT + '/projects/{0}/files/{1}'.format(instance.task.project.slug, filename))
+    return  ('/projects/{0}/files/{1}'.format(instance.task.project.slug, filename))
 
 
 class TaskFile(models.Model):
