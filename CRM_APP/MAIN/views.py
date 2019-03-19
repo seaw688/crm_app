@@ -32,7 +32,14 @@ class ProjectsDetailView(DetailView):
     template_name = "project-detail.html"
     context_object_name = 'project'
 
+import django_filters
 
+
+class TaskFilter(django_filters.FilterSet):
+
+    class Meta:
+        model = Task
+        fields = ['priority',]
 
 @method_decorator(login_required, name='dispatch')
 #@method_decorator(group_required(('ADMIN'), raise_exception=True), name='dispatch')
@@ -40,4 +47,10 @@ class TasksView(ListView):
     model = Task
     template_name = "tasks.html"
     context_object_name = 'tasks'
+
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter'] = TaskFilter(self.request.GET,queryset=self.get_queryset())
+        return context
 
