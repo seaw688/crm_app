@@ -39,7 +39,7 @@ class TaskFilter(django_filters.FilterSet):
 
     class Meta:
         model = Task
-        fields = ['priority',]
+        fields = ['priority','project','executor']
 
 @method_decorator(login_required, name='dispatch')
 #@method_decorator(group_required(('ADMIN'), raise_exception=True), name='dispatch')

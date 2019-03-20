@@ -14,3 +14,6 @@ class User(AbstractUser):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username',]
+
+    def __str__(self):
+        return '{0} {1}'.format(self.first_name, self.last_name)
