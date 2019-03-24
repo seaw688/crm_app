@@ -33,9 +33,7 @@ TASK_STATUSES = (
     ("TO-DO", "To do"),
     ("IN-PROGRESS", "In progress"),
     ("DONE", "Task done"),
-    ("TEST", "In testing"),
     ("CLOSED", "Closed"),
-    ("SUSPENDED", "Suspended")
 )
 
 TASK_PRIORITY = (
