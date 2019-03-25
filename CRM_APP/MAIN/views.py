@@ -57,11 +57,11 @@ TASK_STATUSES_STYLE = (
 )
 
 
-class CustomeSelectWidget(widgets.Select):
+class StatusSelectWidget(widgets.Select):
     option_style = TASK_STATUSES_STYLE
 
     def create_option(self, name, value, label, selected, index, subindex=None, attrs=None):
-        option = super(CustomeSelectWidget, self).create_option(name, value, label, selected, index, subindex=None,
+        option = super(StatusSelectWidget, self).create_option(name, value, label, selected, index, subindex=None,
                                                                 attrs=None)
 
         for x in self.option_style:
@@ -70,23 +70,37 @@ class CustomeSelectWidget(widgets.Select):
         return option
 
 
+class ExecutorSelectWidget(widgets.Select):
+
+    def create_option(self, name, value, label, selected, index, subindex=None, attrs=None):
+        option = super(ExecutorSelectWidget, self).create_option(name, value, label, selected, index, subindex=None,
+                                                                attrs=None)
+
+        return option
+
 
 
 class TaskFilter(django_filters.FilterSet):
     status = django_filters.ChoiceFilter(choices=TASK_STATUSES,
                                          empty_label='Any status',
-                                         widget=CustomeSelectWidget(
+                                         widget=StatusSelectWidget(
                                              attrs={"class": 'selectpicker', 'data-width': 'fit'}))
-    executor = django_filters.ModelChoiceFilter(queryset=UserModel.objects.all())
+    executor = django_filters.ModelChoiceFilter(queryset=UserModel.objects.all(),widget=ExecutorSelectWidget(attrs={'class':'selectpicker'}))
 
     class Meta:
         model = Task
         fields = ['priority', 'project', 'executor', 'kind', 'status']
 
 
+
+
+
+
+
 @method_decorator(login_required, name='dispatch')
 # @method_decorator(group_required(('ADMIN'), raise_exception=True), name='dispatch')
 class TasksView(ListView):
+
     model = Task
     template_name = "tasks.html"
     context_object_name = 'tasks'

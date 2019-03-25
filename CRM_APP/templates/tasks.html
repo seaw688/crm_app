@@ -22,6 +22,26 @@
 </div>
 
 
+
+<div class="row">
+    <div class="col">
+        <div class="card">
+
+            <form action="" method="get">
+
+
+                {% for field in filter.form%}
+
+                {{field.widget.input_type}}
+                {% endfor %}
+
+                <input type="submit"/>
+            </form>
+        </div>
+    </div>
+</div>
+
+
 <div class="row">
     <div class="col">
         <div class="card">
