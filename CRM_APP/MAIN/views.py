@@ -23,7 +23,7 @@ class IndexView(View):
         # return render(request,'default.html')
 
 
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
 # @method_decorator(group_required(('ADMIN'), raise_exception=True), name='dispatch')
 class ProjectsView(ListView):
     model = Project
@@ -70,21 +70,38 @@ class StatusSelectWidget(widgets.Select):
         return option
 
 
+
+
 class ExecutorSelectWidget(widgets.Select):
+
+    def __init__(self, attrs=None, choices=(),user=None):
+        super().__init__(attrs)
+        # choices can be any iterable, but we may need to render this widget
+        # multiple times. Thus, collapse it into a list so it can be consumed
+        # more than once.
+        self.choices = list(choices)
+
 
     def create_option(self, name, value, label, selected, index, subindex=None, attrs=None):
         option = super(ExecutorSelectWidget, self).create_option(name, value, label, selected, index, subindex=None,
                                                                 attrs=None)
-
         return option
 
 
 
 class TaskFilter(django_filters.FilterSet):
+
+    def __init__(self, data=None, queryset=None, *, request=None, prefix=None):
+        super().__init__(data=data,queryset=queryset,request=request,prefix=prefix)
+        self.filters['executor'].extra['widget'].test='test'
+
+
     status = django_filters.ChoiceFilter(choices=TASK_STATUSES,
                                          empty_label='Any status',
                                          widget=StatusSelectWidget(
-                                             attrs={"class": 'selectpicker', 'data-width': 'fit'}))
+                                         attrs={"class": 'selectpicker', 'data-width': 'fit'}))
+
+
     executor = django_filters.ModelChoiceFilter(queryset=UserModel.objects.all(),widget=ExecutorSelectWidget(attrs={'class':'selectpicker'}))
 
     class Meta:
@@ -97,7 +114,7 @@ class TaskFilter(django_filters.FilterSet):
 
 
 
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
 # @method_decorator(group_required(('ADMIN'), raise_exception=True), name='dispatch')
 class TasksView(ListView):
 
@@ -107,5 +124,7 @@ class TasksView(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['filter'] = TaskFilter(self.request.GET, queryset=self.get_queryset(), request=self.request)
+        queryset = self.get_queryset()
+        x = TaskFilter(self.request.GET, queryset=queryset, request=self.request)
+        context['filter'] = x
         return context
