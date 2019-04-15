@@ -48,17 +48,15 @@ TASK_STATUSES = (
     ("CLOSED", "Closed"),
 )
 
-TASK_STATUSES_STYLE = (
+
+
+class StatusSelectWidget(widgets.Select):
+    option_style = (
     {'name': 'TO-DO', 'attr_name': 'class', 'value': """btn-outline-info"""},
     {'name': 'IN-PROGRESS', 'attr_name': 'class', 'value': """btn-outline-primary"""},
     {'name': 'DONE', 'attr_name': 'class', 'value': """btn-outline-secondary"""},
     {'name': 'CLOSED', 'attr_name': 'class', 'value': """btn-outline-dark"""},
-
-)
-
-
-class StatusSelectWidget(widgets.Select):
-    option_style = TASK_STATUSES_STYLE
+                   )
 
     def create_option(self, name, value, label, selected, index, subindex=None, attrs=None):
         option = super(StatusSelectWidget, self).create_option(name, value, label, selected, index, subindex=None,
@@ -89,7 +87,6 @@ class ExecutorSelectWidget(widgets.Select):
     def get_context(self, name, value, attrs):
         context = super().get_context(name, value, attrs)
         context['widget']['current_user'] = self.current_user
-
         return context
 
 
@@ -100,20 +97,23 @@ class TaskFilter(django_filters.FilterSet):
         super().__init__(data=data,queryset=queryset,request=request,prefix=prefix)
         self.filters['executor'].extra['widget'].current_user = self.request.user
 
+    #
+    # status = django_filters.ChoiceFilter(choices=TASK_STATUSES,
+    #                                      empty_label='Any status',
+    #                                      widget=StatusSelectWidget(
+    #                                      attrs={"class": 'selectpicker', 'data-width': 'fit'}))
 
-    status = django_filters.ChoiceFilter(choices=TASK_STATUSES,
-                                         empty_label='Any status',
-                                         widget=StatusSelectWidget(
-                                         attrs={"class": 'selectpicker', 'data-width': 'fit'}))
 
-
-    executor = django_filters.ModelChoiceFilter(queryset=UserModel.objects.all(),widget=ExecutorSelectWidget( attrs={"class": 'selectpicker', 'data-width': 'auto','data-live-search':'true'}))
+    executor = django_filters.ModelChoiceFilter(queryset=UserModel.objects.all(),
+                                                widget=ExecutorSelectWidget(choices=('dsadsa','dsadsa','dsadsa'),attrs={"class": 'selectpicker',
+                                                                                   "data-width": 'auto',
+                                                                                   "data-live-search": 'true'}))
 
     class Meta:
         model = Task
-        fields = ['priority', 'project', 'executor', 'kind', 'status']
-
-
+        #fields = ['priority', 'project', 'executor', 'kind', 'status']
+        #fields = ['executor']
+        fields = ""
 
 
 
@@ -131,5 +131,8 @@ class TasksView(ListView):
         context = super().get_context_data(**kwargs)
         queryset = self.get_queryset()
         x = TaskFilter(self.request.GET, queryset=queryset, request=self.request)
+        print(x.filters['executor'].extra['widget'].choices)
+        print(x.filters['executor'].field.widget)
+
         context['filter'] = x
         return context
