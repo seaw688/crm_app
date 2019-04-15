@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.forms',
 
     'widget_tweaks',
     'django_filters',
@@ -58,7 +59,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'CRM_APP.urls'
-
+FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

@@ -72,20 +72,25 @@ class StatusSelectWidget(widgets.Select):
 
 
 
+
+
+
+
 class ExecutorSelectWidget(widgets.Select):
+    template_name = 'widgets/executer-dropdown.html'
+    option_template_name = 'widgets/executer-dropdown-options.html'
 
-    def __init__(self, attrs=None, choices=(),user=None):
+    def __init__(self, attrs=None, choices=(),current_user=None):
         super().__init__(attrs)
-        # choices can be any iterable, but we may need to render this widget
-        # multiple times. Thus, collapse it into a list so it can be consumed
-        # more than once.
         self.choices = list(choices)
+        self.current_user = current_user
 
 
-    def create_option(self, name, value, label, selected, index, subindex=None, attrs=None):
-        option = super(ExecutorSelectWidget, self).create_option(name, value, label, selected, index, subindex=None,
-                                                                attrs=None)
-        return option
+    def get_context(self, name, value, attrs):
+        context = super().get_context(name, value, attrs)
+        context['widget']['current_user'] = self.current_user
+
+        return context
 
 
 
@@ -93,7 +98,7 @@ class TaskFilter(django_filters.FilterSet):
 
     def __init__(self, data=None, queryset=None, *, request=None, prefix=None):
         super().__init__(data=data,queryset=queryset,request=request,prefix=prefix)
-        self.filters['executor'].extra['widget'].test='test'
+        self.filters['executor'].extra['widget'].current_user = self.request.user
 
 
     status = django_filters.ChoiceFilter(choices=TASK_STATUSES,
@@ -102,7 +107,7 @@ class TaskFilter(django_filters.FilterSet):
                                          attrs={"class": 'selectpicker', 'data-width': 'fit'}))
 
 
-    executor = django_filters.ModelChoiceFilter(queryset=UserModel.objects.all(),widget=ExecutorSelectWidget(attrs={'class':'selectpicker'}))
+    executor = django_filters.ModelChoiceFilter(queryset=UserModel.objects.all(),widget=ExecutorSelectWidget( attrs={"class": 'selectpicker', 'data-width': 'auto','data-live-search':'true'}))
 
     class Meta:
         model = Task
