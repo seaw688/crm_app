@@ -105,7 +105,7 @@ class TaskFilter(django_filters.FilterSet):
 
 
     executor = django_filters.ModelChoiceFilter(queryset=UserModel.objects.all(),
-                                                widget=ExecutorSelectWidget(choices=('dsadsa','dsadsa','dsadsa'),attrs={"class": 'selectpicker',
+                                                widget=ExecutorSelectWidget(choices=(1,2,3),attrs={"class": 'selectpicker',
                                                                                    "data-width": 'auto',
                                                                                    "data-live-search": 'true'}))
 
@@ -132,7 +132,7 @@ class TasksView(ListView):
         queryset = self.get_queryset()
         x = TaskFilter(self.request.GET, queryset=queryset, request=self.request)
         print(x.filters['executor'].extra['widget'].choices)
-        print(x.filters['executor'].field.widget)
+        print(x.filters['executor'].field.widget.choices)
 
         context['filter'] = x
         return context
