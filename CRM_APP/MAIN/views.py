@@ -70,10 +70,6 @@ class StatusSelectWidget(widgets.Select):
 
 
 
-
-
-
-
 class ExecutorSelectWidget(widgets.Select):
     template_name = 'widgets/executer-dropdown.html'
     option_template_name = 'widgets/executer-dropdown-options.html'
@@ -83,10 +79,90 @@ class ExecutorSelectWidget(widgets.Select):
         self.choices = list(choices)
         self.current_user = current_user
 
+    def create_option(self, name, value, label, selected, index, subindex=None, attrs=None):
+        option = super(ExecutorSelectWidget, self).create_option(name, value, label, selected, index, subindex=None, attrs=None)
+        user = self.current_user
+        return option
+
+    def optgroups(self, name, value, attrs=None):
+        """Return a list of optgroups for this widget."""
+        groups = []
+        has_selected = False
+
+
+        for index, (option_value, option_label) in enumerate(self.choices):
+            if option_value is None:
+                option_value = ''
+
+            subgroup = []
+            if isinstance(option_label, (list, tuple)):
+                group_name = option_value
+                subindex = 0
+                choices = option_label
+            else:
+                group_name = None
+                subindex = None
+                choices = [(option_value, option_label)]
+            groups.append((group_name, subgroup, index))
+
+            for subvalue, sublabel in choices:
+                selected = (
+                    str(subvalue) in value and
+                    (not has_selected or self.allow_multiple_selected)
+                )
+                has_selected |= selected
+                subgroup.append(self.create_option(
+                    name, subvalue, sublabel, selected, index,
+                    subindex=subindex, attrs=attrs,
+                ))
+                if subindex is not None:
+                    subindex += 1
+        return groups
+
+
+    def make_option(self,name,value,label,index,user=None):
+
+
+        return {
+            'name': name,
+            'value': value,
+            'label': label,
+            'index': index,
+            'type': self.input_type,
+            'template_name': self.option_template_name,
+            'wrap_label': True,
+            'user':user
+        }
+
+    def custome_options_set(self, name, value, attrs=None):
+        options_set = []
+
+        for index, (option_value, option_label) in enumerate(self.choices):
+
+            print(option_value,option_label)
+            if option_value == self.current_user.pk:
+                break
+            user = None
+
+            if option_value != None and option_value != "":
+                user=UserModel.objects.get(pk=option_value)
+            else:
+                option_label = 'Any executer'
+
+            option = self.make_option(name=name,
+                                      value=option_value,
+                                      label=option_label,
+                                      index = index,
+                                      user=user)
+            options_set.append(option)
+
+        return options_set
+
 
     def get_context(self, name, value, attrs):
         context = super().get_context(name, value, attrs)
         context['widget']['current_user'] = self.current_user
+        context['widget']['options'] = self.custome_options_set(name, context['widget']['value'], attrs)
         return context
 
 
@@ -131,8 +207,8 @@ class TasksView(ListView):
         context = super().get_context_data(**kwargs)
         queryset = self.get_queryset()
         x = TaskFilter(self.request.GET, queryset=queryset, request=self.request)
-        print(x.filters['executor'].extra['widget'].choices)
-        print(x.filters['executor'].field.widget.choices)
+        # print(x.filters['executor'].extra['widget'].choices)
+        # print(x.filters['executor'].field.widget.choices)
 
         context['filter'] = x
         return context
