@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.views import View
 from django.views.generic import ListView, DetailView
 from django.shortcuts import render, redirect
-from MAIN.models import Task, Project
+from MAIN.models import Task, Project, TimeLog
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from MAIN.utils import group_required
@@ -204,9 +204,18 @@ class TasksView(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         queryset = self.get_queryset()
+
         x = TaskFilter(self.request.GET, queryset=queryset, request=self.request)
+
         # print(x.filters['executor'].extra['widget'].choices)
         # print(x.filters['executor'].field.widget.choices)
 
         context['filter'] = x
+        for task in x.qs:
+            time = TimeLog.objects.filter(tracker=self.request.user).values('time')
+            print(time)
+
+
+        context['qs_set'] = x.qs
+
         return context
