@@ -212,8 +212,8 @@ class TasksView(ListView):
 
         context['filter'] = x
         for task in x.qs:
-            time = TimeLog.objects.filter(tracker=self.request.user).values('time')
-            print(time)
+            task.time_set.all()
+            print(task.time_set.all())
 
 
         context['qs_set'] = x.qs
