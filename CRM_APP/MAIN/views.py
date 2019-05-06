@@ -191,7 +191,7 @@ class TaskFilter(django_filters.FilterSet):
 
 
 
-
+from django.db.models import Sum
 
 # @method_decorator(login_required, name='dispatch')
 # @method_decorator(group_required(('ADMIN'), raise_exception=True), name='dispatch')
@@ -212,8 +212,12 @@ class TasksView(ListView):
 
         context['filter'] = x
         for task in x.qs:
-            task.time_set.all()
-            print(task.time_set.all())
+
+            all_time = task.time_set.all().aggregate(Sum('time'))
+            task.all_time = all_time['time__sum']
+
+            my_time=task.time_set.filter(tracker=self.request.user).aggregate(Sum('time'))
+            task.my_time = my_time['time__sum']
 
 
         context['qs_set'] = x.qs
