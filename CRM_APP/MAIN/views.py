@@ -242,7 +242,7 @@ class CreateProjectView(View):
     def post(self,request,*args,**kwargs):
         form = ProjectForm(data=self.request.POST)
         if form.is_valid():
-            print('nice')
+            project_instance = form.save()
             return HttpResponse('ok')
         else:
 
