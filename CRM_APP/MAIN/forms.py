@@ -5,4 +5,4 @@ class ProjectForm(ModelForm):
 
     class Meta:
         model = Project
-        fields = ['title','slug','description','logo','users']
+        fields = ['title','slug','description','users']

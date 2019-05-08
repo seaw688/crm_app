@@ -232,7 +232,19 @@ class TasksView(ListView):
 from .forms import ProjectForm
 
 class CreateProjectView(View):
+
     def get(self, request, *args, **kwargs):
         form = ProjectForm()
         return render(self.request,template_name='projects-add.html',
                       context={'form':form})
+
+
+    def post(self,request,*args,**kwargs):
+        form = ProjectForm(data=self.request.POST)
+        if form.is_valid():
+            print('nice')
+            return HttpResponse('ok')
+        else:
+
+            return HttpResponse(form.errors)
+
