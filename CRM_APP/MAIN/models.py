@@ -17,7 +17,7 @@ class Project(models.Model):
     logo = models.ImageField(upload_to=project_logo_upload_path)
     created = models.DateTimeField(auto_now=True)
     creator = models.ForeignKey(UserModel, on_delete=models.SET_NULL, null=True, related_name='created_projects')
-
+    users = models.ManyToManyField(UserModel,related_name='users')
 
     def __str__(self):
         return '{}'.format(self.slug)

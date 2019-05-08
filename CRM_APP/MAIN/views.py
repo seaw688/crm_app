@@ -14,6 +14,9 @@ import django_filters
 UserModel = get_user_model()
 
 
+
+
+
 class IndexView(View):
     def get(self, request, *args, **kwargs):
         print(request.user.get_all_permissions())
@@ -32,12 +35,14 @@ class ProjectsView(ListView):
     context_object_name = 'projects'
 
 
+
 @method_decorator(login_required, name='dispatch')
 # @method_decorator(group_required(('ADMIN'), raise_exception=True), name='dispatch')
 class ProjectsDetailView(DetailView):
     model = Project
     template_name = "project-detail.html"
     context_object_name = 'project'
+
 
 
 #
@@ -223,3 +228,11 @@ class TasksView(ListView):
         context['qs_set'] = x.qs
 
         return context
+
+from .forms import ProjectForm
+
+class CreateProjectView(View):
+    def get(self, request, *args, **kwargs):
+        form = ProjectForm()
+        return render(self.request,template_name='projects-add.html',
+                      context={'form':form})
