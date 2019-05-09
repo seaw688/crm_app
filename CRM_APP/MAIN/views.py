@@ -231,6 +231,8 @@ class TasksView(ListView):
 
 from .forms import ProjectForm
 
+# @method_decorator(login_required, name='dispatch')
+# @method_decorator(group_required(('ADMIN'), raise_exception=True), name='dispatch')
 class CreateProjectView(View):
 
     def get(self, request, *args, **kwargs):
@@ -240,11 +242,11 @@ class CreateProjectView(View):
 
 
     def post(self,request,*args,**kwargs):
-        form = ProjectForm(data=self.request.POST)
+        form = ProjectForm(data=self.request.POST,files=self.request.FILES)
         if form.is_valid():
             project_instance = form.save()
-            return HttpResponse('ok')
+            return redirect('/projects/view/'+project_instance.slug+'/',permanent=True)
         else:
-
-            return HttpResponse(form.errors)
+            return render(self.request, template_name='projects-add.html',
+                          context={'form': form})
 
