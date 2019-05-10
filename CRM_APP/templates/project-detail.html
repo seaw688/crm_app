@@ -34,7 +34,6 @@
                                 <td>{{ task.priority }}</td>
                                 <td>{{ task.executor }}</td>
                                 <td>{{ task.deadline }}</td>
-                                <td><span class="badge-dot badge-brand mr-1"></span>InTransit</td>
                             </tr>
 
 
@@ -47,10 +46,9 @@
                     <nav aria-label="Page navigation example">
                         <ul class="pagination">
                             <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item active"><a class="page-link " href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+
+                            <li class="page-item" data-page="next" id="next" ><a class="page-link" href="#" >Next</a></li>
+
                         </ul>
                     </nav>
                 </div>
@@ -69,16 +67,42 @@
 
         function getPagination(table) {
 
-            var page_size = 10;
-            var totalRows = $(table+' tbody tr').length;
-            var total_pages = Math.round(totalRows / page_size);
+            var page_size = 1;
+            var total_rows = $(table + ' tbody tr').length;
+            var tr_num_counter = 0;
 
-            
+
+            $(table + ' tr:gt(0)').each(function () {
+
+                tr_num_counter++;
+                console.log('dsdas');
+                if (tr_num_counter > page_size) {
+
+                    $(this).hide();
+                }
+                if (tr_num_counter <= page_size) {
+                    $(this).show();
+                }
+            });
+
+
+            if (total_rows > page_size) {
+                var page_num = Math.ceil(total_rows / page_size);
+
+                var i = 1;
+                while (i <= page_num) {
+                    console.log(i)
+                    $('.pagination #next').before("<li class=\"page-item\" data-page="+i+" ><a class=\"page-link\" href=\"#\" >"+i+"</a></li>").show();
+                    i++;
+                }
+
+            }
+
+
             alert(total_pages)
 
-                                        }
+        }
 
 
     </script>
 {% endblock %}
-

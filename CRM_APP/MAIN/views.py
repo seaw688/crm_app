@@ -36,7 +36,7 @@ class ProjectsView(ListView):
 
 
 
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
 # @method_decorator(group_required(('ADMIN'), raise_exception=True), name='dispatch')
 class ProjectsDetailView(DetailView):
     model = Project
