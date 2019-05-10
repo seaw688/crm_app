@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.views import View
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, UpdateView
 from django.shortcuts import render, redirect
 from MAIN.models import Task, Project, TimeLog
 from django.utils.decorators import method_decorator
@@ -250,3 +250,17 @@ class CreateProjectView(View):
             return render(self.request, template_name='projects-add.html',
                           context={'form': form})
 
+
+# @method_decorator(login_required, name='dispatch')
+# @method_decorator(group_required(('ADMIN'), raise_exception=True), name='dispatch')
+class EditProjectView(UpdateView):
+    model = Project
+    form_class = ProjectForm
+    template_name = 'projects-edit.html'
+    slug_field = 'slug'
+
+
+
+    def get_success_url(self):
+        project_slug = self.object.slug
+        return '/projects/view/'+project_slug+'/'

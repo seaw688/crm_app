@@ -1,12 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <meta charset="utf-8">
 </head>
+
 <body>
-            {% csrf_token %}
-            {{projects}}
+
+
+
+  <button onclick="loadPhones()">Загрузить phones.json!</button>
+
+  <script>
+    function loadPhones() {
+      var xhr = new XMLHttpRequest();
+
+      xhr.open('GET', '../djangoforever/', false);
+      xhr.send();
+
+      if (xhr.status != 200) {
+        // обработать ошибку
+        alert('Ошибка ' + xhr.status + ': ' + xhr.getAllResponseHeaders());
+      } else {
+        var response = xhr.responseText;
+
+        alert(xhr.responseText);
+
+      }
+    }
+  </script>
 
 </body>
+
 </html>

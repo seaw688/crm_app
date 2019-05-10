@@ -67,7 +67,9 @@
                     <div class="col">
                         <div class="row justify-content-center">
                             <div class="col-auto">
-                                <a href="./view/{{project.slug}}/" class="btn btn-primary btn-md" style="margin-top: 10px;">More/Edit</a>
+                                                                <a href="./view/{{project.slug}}/" class="btn btn-primary btn-md" style="margin-top: 10px;">More</a>
+
+                                <a href="./edit/{{project.slug}}/" class="btn btn-primary btn-md" style="margin-top: 10px;">Edit</a>
                             </div>
                         </div>
                     </div>
@@ -140,8 +142,9 @@
     </div>
 
     <div class="col">
+        <a class="btn btn-primary btn-lg btn-block" href="./edit/{{project.slug}}">More</a>
 
-        <a class="btn btn-primary btn-lg btn-block" href="./{{project.slug}}">Edit/More</a>
+        <a class="btn btn-primary btn-lg btn-block" href="./edit/{{project.slug}}">Edit</a>
     </div>
 
 

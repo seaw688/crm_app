@@ -13,12 +13,10 @@ class ProjectForm(ModelForm):
     def clean_slug(self):
         slug=self.cleaned_data['title']
         i = 0
-        while i < 1000:
-            print('we in cycle')
+        while i < 9999999:
             i += 1
             if Project.objects.filter(slug=slug).exists():
                 slug = slug + "-" + str(i)
-                print(slug)
             else:
                 break
 

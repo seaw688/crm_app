@@ -1,15 +1,84 @@
 {% extends "default.html" %}
 
-{% block title %}Project {{project.title}}{% endblock %}
+{% block title %}Project {{ project.title }}{% endblock %}
 
 {% block body %}
 
 
-{{project}}
+    <div class="col-xl-9 col-lg-12 col-md-6 col-sm-12 col-12">
+        <div class="card">
+            <h5 class="card-header">Tasks:</h5>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table" id="task-table">
+                        <thead class="bg-light">
+                        <tr class="border-0">
+                            <th class="border-0">#</th>
+                            <th class="border-0">Title</th>
+                            <th class="border-0">Kind</th>
+                            <th class="border-0">Status</th>
+                            <th class="border-0">Priority</th>
+                            <th class="border-0">Executor</th>
+                            <th class="border-0">Deadline</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {% for task in project.project_tasks.all %}
+                            <tr>
+                                <td>{{ task.id }}</td>
+                                <td><a href="/tasks/view/{{ task.slug }}/"> {{ task.title }}</a></td>
+                                <td>{{ task.kind }} </td>
+                                <td>{{ task.status }}</td>
+                                <td>{{ task.priority }}</td>
+                                <td>{{ task.executor }}</td>
+                                <td>{{ task.deadline }}</td>
+                                <td><span class="badge-dot badge-brand mr-1"></span>InTransit</td>
+                            </tr>
+
+
+
+                        {% endfor %}
+
+
+                        </tbody>
+                    </table>
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item active"><a class="page-link " href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 
 
+{% endblock %}
 
+{% block script %}
+    <script type="text/javascript">
+        getPagination('#task-table');
+
+        function getPagination(table) {
+
+            var page_size = 10;
+            var totalRows = $(table+' tbody tr').length;
+            var total_pages = Math.round(totalRows / page_size);
+
+            
+            alert(total_pages)
+
+                                        }
+
+
+    </script>
 {% endblock %}
 
