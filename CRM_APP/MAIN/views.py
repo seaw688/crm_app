@@ -256,6 +256,7 @@ class CreateProjectView(View):
             return render(self.request, template_name='projects-add.html',
                           context={'form': form})
 
+from django.views.decorators.csrf import csrf_exempt
 
 # @method_decorator(login_required, name='dispatch')
 # @method_decorator(group_required(('ADMIN'), raise_exception=True), name='dispatch')
@@ -270,3 +271,13 @@ class EditProjectView(UpdateView):
     def get_success_url(self):
         project_slug = self.object.slug
         return '/projects/view/'+project_slug+'/'
+
+@csrf_exempt
+def TaskAssignView(request):
+    if request.method == 'GET':
+        return HttpResponse('API hit with post method',status=400)
+
+    if request.method=='POST':
+        print(request.user)
+        print(request.POST)
+        return HttpResponse('API hit with post method',status=200)

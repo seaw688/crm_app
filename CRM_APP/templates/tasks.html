@@ -196,7 +196,7 @@
                         </div>
                         {% else %}
                             <div class="text-center">
-                            <a href="#" class="btn btn-primary btn-sm mb-2 mt-2 assign-btn" value="{{ task.id }}">Assign on me</a>
+                            <a href="" class="btn btn-primary btn-sm mb-2 mt-2 assign-btn" value="{{ task.id }}">Assign on me</a>
                             </div>
                         {% endif %}
 
@@ -222,10 +222,29 @@ assign_buttom();
 
 function assign_buttom() {
     $(".assign-btn").click(function (eventObject) {
+         eventObject.stopImmediatePropagation();
+                eventObject.preventDefault();
         var btn_id = $(this).attr("value");
         console.log(btn_id);
-        $(".assign-btn,[id="+btn_id+"]").replaceWith('<span class="dashboard-spinner spinner-xs"></span>');
+        $("#error-msg-"+btn_id).remove();
+        $(".assign-btn,[id="+btn_id+"]").hide().after('<span id="error-spiner-'+btn_id+'" class="dashboard-spinner spinner-xs"></span>');
 
+        $.ajax({
+                url: "/tasks/assign/",
+                data: {task_id: btn_id},
+                type: 'post',
+                timeout:3000,
+                error: function(XMLHttpRequest, textStatus, errorThrown){
+
+                $("#error-spiner-"+btn_id).hide();
+                $(".assign-btn,[id="+btn_id+"]").show().after('<br><span id="error-msg-'+btn_id+'" style="color: red;">Error. Try again.</span>');
+
+                                                                                                            },
+                success: function(data){
+                     $("#error-spiner-"+btn_id).replaceWith('<div style="padding: 6px;" class="alert alert-success mb-2 mt-2" role="alert">Assigned.</div>');
+                    
+                }
+});
     })
 }
 </script>
