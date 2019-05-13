@@ -224,7 +224,7 @@ function assign_buttom() {
     $(".assign-btn").click(function (eventObject) {
         var btn_id = $(this).attr("value");
         console.log(btn_id);
-        $(".assign-btn,[id="+btn_id+"]").html('<span class="dashboard-spinner spinner-xs"></span>');
+        $(".assign-btn,[id="+btn_id+"]").replaceWith('<span class="dashboard-spinner spinner-xs"></span>');
 
     })
 }
