@@ -54,7 +54,7 @@ class Task(models.Model):
     estimation = models.DecimalField(max_digits=5, decimal_places=1, default=0, null=True)
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='project_tasks')
     created = models.DateTimeField(auto_now=True)
-    executor = models.ForeignKey(UserModel, on_delete=models.SET_NULL, null=True, related_name='user_tasks')
+    executor = models.ForeignKey(UserModel, on_delete=models.SET_NULL, null=True, related_name='user_tasks',blank=True)
     creator = models.ForeignKey(UserModel, on_delete=models.SET_NULL, null=True, related_name='created_tasks')
     note = models.CharField(max_length=300, blank=True)
     deadline = models.DateTimeField(blank=True,null=True)

@@ -196,7 +196,7 @@ class TaskFilter(django_filters.FilterSet):
 
 
 
-from django.db.models import Sum
+from django.db.models import Sum, Count
 
 # @method_decorator(login_required, name='dispatch')
 # @method_decorator(group_required(('ADMIN'), raise_exception=True), name='dispatch')
@@ -217,6 +217,12 @@ class TasksView(ListView):
 
         context['filter'] = x
         for task in x.qs:
+
+            task_files = task.task_files.all().aggregate(Count('id'))
+            task.files_count = task_files['id__count']
+
+            comments = task.task_comments.all().aggregate(Count('id'))
+            task.comments_count= comments['id__count']
 
             all_time = task.time_set.all().aggregate(Sum('time'))
             task.all_time = all_time['time__sum']
