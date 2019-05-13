@@ -278,6 +278,15 @@ def TaskAssignView(request):
         return HttpResponse('API hit with post method',status=400)
 
     if request.method=='POST':
-        print(request.user)
-        print(request.POST)
-        return HttpResponse('API hit with post method',status=200)
+        task_id = request.POST.get('task_id',None)
+
+        if task_id == None:
+            return HttpResponse('No task id.', status=400)
+        else:
+            task = Task.objects.get(pk=task_id)
+            if task.project.users.filter(pk=request.user.pk).exists():
+                task.executor=request.user
+                task.save()
+                return HttpResponse('API hit with post method',status=200)
+            else:
+                return HttpResponse('Not assigned on project.', status=400)
