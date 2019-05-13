@@ -42,9 +42,37 @@
             <div class="col-xl-2 col-lg-6 col-md-6 col-sm-12 col-12" style="min-width:300px">
                 <div class="card">
                     <div class="card-header" style="padding: 0;">
-                        <span class="badge badge-success float-left">{{ task.get_status_display }}</span>
 
+
+
+                        {% if task.status == "TO-DO" %}
+                        <span class="badge badge-info float-left">{{ task.get_status_display }}</span>
+                        {% elif task.status == "IN-PROGRESS" %}
+                        <span class="badge badge-primary float-left">{{ task.get_status_display }}</span>
+
+                        {% elif task.status == "DONE" %}
+                        <span class="badge badge-success float-left">{{ task.get_status_display }}</span>
+                        {% elif task.status == "CLOSED" %}
+                        <span class="badge badge-dark float-left">{{ task.get_status_display }}</span>
+
+                        {% endif %}
+
+
+
+
+
+
+
+                        {% if task.priority == "NORMAL" %}
+                        <span class="float-left" style="padding-left: 10px;"><span class="badge-dot badge-primary"></span>{{ task.get_priority_display }}</span>
+                        {% elif task.priority == "HIGH" %}
+                        <span class="float-left" style="padding-left: 10px;"><span class="badge-dot badge-warning"></span>{{ task.get_priority_display }}</span>
+                        {% elif task.priority == "URGENT" %}
                         <span class="float-left" style="padding-left: 10px;"><span class="badge-dot badge-danger"></span>{{ task.get_priority_display }}</span>
+                        {% elif task.priority == "LOW" %}
+                        <span class="float-left" style="padding-left: 10px;"><span class="badge-dot badge-success"></span>{{ task.get_priority_display }}</span>
+                        {% endif %}
+
 
 
                     </div>
@@ -59,7 +87,13 @@
                                     {{ task.project.title }}</a> /<a
                                         href="/tasks/{{ task.slug }}/"> <i class="fas fa-list"></i> task: {{ task.id }}
                                 </a></small>
+                                {% if task.kind == "FEATURE" %}
                                 <span class="float-right"> <small>Feature <i class="fas fa-tag"></i></small> </span>
+                                {% elif task.kind == "BUG" %}
+                                <span class="float-right"> <small>Bug <i class="fas fa-bug"></i></small> </span>
+                                {% else %}
+                                <span class="float-right"> <small>Task <i class="fas fa-check"></i></small> </span>
+                                {% endif %}
                             </div>
 
                         </div>

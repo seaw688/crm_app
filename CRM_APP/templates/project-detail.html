@@ -50,8 +50,27 @@
                                 <td>{{ task.id }}</td>
                                 <td><a href="/tasks/view/{{ task.slug }}/"> {{ task.title }}</a></td>
                                 <td>{{ task.kind }} </td>
-                                <td>{{ task.status }}</td>
-                                <td>{{ task.priority }}</td>
+                                <td> {% if task.status == "TO-DO" %}
+                        <span class="badge badge-info float-left">{{ task.get_status_display }}</span>
+                        {% elif task.status == "IN-PROGRESS" %}
+                        <span class="badge badge-primary float-left">{{ task.get_status_display }}</span>
+
+                        {% elif task.status == "DONE" %}
+                        <span class="badge badge-success float-left">{{ task.get_status_display }}</span>
+                        {% elif task.status == "CLOSED" %}
+                        <span class="badge badge-dark float-left">{{ task.get_status_display }}</span>
+
+                        {% endif %}
+</td>
+                                <td><small>{% if task.priority == "NORMAL" %}
+                        <span class="float-left" style="padding-left: 10px;"><span class="badge-dot badge-primary"></span>{{ task.priority }}</span>
+                        {% elif task.priority == "HIGH" %}
+                        <span class="float-left" style="padding-left: 10px;"><span class="badge-dot badge-warning"></span>{{ task.priority }}</span>
+                        {% elif task.priority == "URGENT" %}
+                        <span class="float-left" style="padding-left: 10px;"><span class="badge-dot badge-danger"></span>{{ task.priority }}</span>
+                        {% elif task.priority == "LOW" %}
+                        <span class="float-left" style="padding-left: 10px;"><span class="badge-dot badge-success"></span>{{ task.priority }}</span>
+                        {% endif %}</small></td>
                                 <td>{{ task.executor }}</td>
                                 <td>{{ task.deadline }}</td>
                                 <td><a href="/tasks/view/{{ task.slug }}/" class="btn btn-primary btn-xs">Edit</a></td>
