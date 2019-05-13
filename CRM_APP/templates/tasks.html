@@ -88,7 +88,8 @@
                                 <small class="text-muted"><a href="/projects/view/{{ task.project.slug }}/"><i
                                         class="fas fa-server"></i>
                                     {{ task.project.title }}</a> /<a
-                                        href="/tasks/view/{{ task.slug }}/"> <i class="fas fa-list"></i> task: {{ task.id }}
+                                        href="/tasks/view/{{ task.slug }}/"> <i class="fas fa-list"></i>
+                                    task: {{ task.id }}
                                 </a></small>
                                 {% if task.kind == "FEATURE" %}
                                     <span class="float-right"> <small>Feature <i class="fas fa-tag"></i></small> </span>
@@ -105,7 +106,7 @@
                         <div class="row" style="">
 
                             <div class="col">
-                                <a href="/tasks/{{ task.title }}"><h5 class="card-title"><i
+                                <a href="/tasks/view/{{ task.slug }}/"><h5 class="card-title"><i
                                         class="fas fa-hashtag"></i>{{ task.title }} </h5></a>
                             </div>
                         </div>
@@ -156,19 +157,49 @@
                                         <br>
                                         <span class="account-name"><small> Created: {{ task.created|date:"d F Y" }}</small></span>
                                         <br>
-                                        <span><small>Creator: <a href="/users/{{ task.creator.username }}/">{{ task.creator }}</a></small></span>
+                                        <span><small>Creator: <a
+                                                href="/users/{{ task.creator.username }}/">{{ task.creator }}</a></small></span>
 
                                     </div>
 
                                 </div>
                                 <div class="tab-pane fade" id="pills-time-{{ task.id }}" role="tabpanel"
                                      aria-labelledby="pills-time-tab">
-                                    {% if task.all_time != None %}
-                                        <span class=""><small>All spent time: {{ task.all_time }} h.</small></span>
+                                    {% if task.all_time %}
+                                        <span class=""><i class="far fa-clock"></i> All spent time: {{ task.all_time }} h.</span>
+                                    {% else %}
+                                        <span class=""><i class="far fa-clock"></i> No time tracked yet.</span>
                                     {% endif %}
-                                    <span class=""><small>My spent time: {{ task.my_time }} h.</small></span>
+
+                                    {% if task.my_time %}
+                                        <span class=""><i class="far fa-clock"></i> My spent time: {{ task.my_time }} h.</span>
+                                    {% endif %}
+
+
+
+                                    <div class="card-body nopadding pt-2" style="text-align: center" id="headingThree">
+                                        <h5 class="mb-0">
+                                            <button class="btn btn-outline-primary btn-xs btn-block"
+                                                    data-toggle="collapse" data-target="#collapseThree"
+                                                    aria-expanded="false" aria-controls="collapseThree">
+                                                Track time  <i class="far fa-clock"></i>
+                                            </button>
+                                        </h5>
+                                    </div>
 
                                 </div>
+
+                                <div id="collapseThree" class="collapse" aria-labelledby="headingThree"  data-parent="#accordion">
+                                    <div class="card-body">
+                                        Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin
+                                        coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer
+                                        labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur
+                                        butcher vice lomo. Leggings occaecat craft beer farm-to-tabhetic synth nesciunt
+                                        you probably haven't heard of them accusamus labore sustainable VHS.
+                                    </div>
+                                </div>
+
+
                                 <div class="tab-pane fade" id="pills-note-{{ task.id }}" role="tabpanel"
                                      aria-labelledby="pills-contact-tab">
                                     <p>{{ task.note }}</p>
@@ -176,32 +207,37 @@
                             </div>
                         </div>
 
-                    <div class="card-footer pb-0 pt-0">
+                        <div class="card-footer pb-0 pt-0">
 
-                        {% if task.executor != None %}
-                        <div class="media">
-                        <div class="align-self-center user-avatar-lg mr-3 rounded">
-                                     <a  href="/users/{{task.executor.username}}" >
-                                    <img src="{{ task.executor.avatar.url }}" alt="{{ task.executer.username }}" class="align-self-center rounded-circle user-avatar-lg">
-                                     </a>
-                        </div>
-                        <div class="media-body">
-                            <a  href="/users/{{task.executor.username}}" >
-                            <h5 class="mb-0">Assigned on:</h5>
-                            <h6 class="account-description mb-0"><a  href="/users/{{task.executor.username}}" >{{task.executor.username}}</a></h6>
-                            <h5 class="mb-0" style="line-height: 9px;">{{ task.executor.first_name }} {{ task.executor.last_name }}</h5>
-                            <h6 class="account-name mb-2">{{task.creator.position}}</h6>
-                            </a>
-                        </div>
-                        </div>
-                        {% else %}
-                            <div class="text-center">
-                            <a href="" class="btn btn-primary btn-sm mb-2 mt-2 assign-btn" value="{{ task.id }}">Assign on me</a>
-                            </div>
-                        {% endif %}
+                            {% if task.executor != None %}
+                                <div class="media">
+                                    <div class="align-self-center user-avatar-lg mr-3 rounded">
+                                        <a href="/users/{{ task.executor.username }}">
+                                            <img src="{{ task.executor.avatar.url }}" alt="{{ task.executer.username }}"
+                                                 class="align-self-center rounded-circle user-avatar-lg">
+                                        </a>
+                                    </div>
+                                    <div class="media-body">
+                                        <a href="/users/{{ task.executor.username }}">
+                                            <h5 class="mb-0">Assigned on:</h5>
+                                            <h6 class="account-description mb-0"><a
+                                                    href="/users/{{ task.executor.username }}">{{ task.executor.username }}</a>
+                                            </h6>
+                                            <h5 class="mb-0"
+                                                style="line-height: 9px;">{{ task.executor.first_name }} {{ task.executor.last_name }}</h5>
+                                            <h6 class="account-name mb-2">{{ task.creator.position }}</h6>
+                                        </a>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="text-center">
+                                    <a href="" class="btn btn-primary btn-sm mb-2 mt-2 assign-btn"
+                                       value="{{ task.id }}">Assign on me</a>
+                                </div>
+                            {% endif %}
 
 
-                    </div>
+                        </div>
 
                     </div>
                 </div>
@@ -216,38 +252,38 @@
 
 
 {% block script %}
-<script type="text/javascript">
+    <script type="text/javascript">
 
-assign_buttom();
+        assign_buttom();
 
-function assign_buttom() {
-    $(".assign-btn").click(function (eventObject) {
-         eventObject.stopImmediatePropagation();
+        function assign_buttom() {
+            $(".assign-btn").click(function (eventObject) {
+                eventObject.stopImmediatePropagation();
                 eventObject.preventDefault();
-        var btn_id = $(this).attr("value");
-        console.log(btn_id);
-        $("#error-msg-"+btn_id).remove();
-        $(".assign-btn,[id="+btn_id+"]").hide().after('<span id="error-spiner-'+btn_id+'" class="dashboard-spinner spinner-xs"></span>');
+                var btn_id = $(this).attr("value");
+                console.log(btn_id);
+                $("#error-msg-" + btn_id).remove();
+                $(".assign-btn,[id=" + btn_id + "]").hide().after('<span id="error-spiner-' + btn_id + '" class="dashboard-spinner spinner-xs"></span>');
 
-        $.ajax({
-                url: "/tasks/assign/",
-                data: {task_id: btn_id},
-                type: 'post',
-                timeout:3000,
-                error: function(XMLHttpRequest, textStatus, errorThrown){
+                $.ajax({
+                    url: "/tasks/assign/",
+                    data: {task_id: btn_id},
+                    type: 'post',
+                    timeout: 3000,
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
 
-                $("#error-spiner-"+btn_id).hide();
-                $(".assign-btn,[id="+btn_id+"]").show().after('<br><span id="error-msg-'+btn_id+'" style="color: red;">Error. Try again.</span>');
+                        $("#error-spiner-" + btn_id).hide();
+                        $(".assign-btn,[id=" + btn_id + "]").show().after('<br><span id="error-msg-' + btn_id + '" style="color: red;">Error. Try again.</span>');
 
-                                                                                                            },
-                success: function(data){
-                     $("#error-spiner-"+btn_id).replaceWith('<div style="padding: 6px;" class="alert alert-success mb-2 mt-2" role="alert">Assigned.</div>');
+                    },
+                    success: function (data) {
+                        $("#error-spiner-" + btn_id).replaceWith('<div style="padding: 6px;" class="alert alert-success mb-2 mt-2" role="alert">Assigned.</div>');
 
-                }
-});
-    })
-}
-</script>
+                    }
+                });
+            })
+        }
+    </script>
 {% endblock %}
 
 
@@ -329,11 +365,12 @@ function assign_buttom() {
 </div>
 
 
-  <div class="media">
-                                    <img class="align-self-center user-avatar-lg mr-3 rounded" src="{{ task.executor.avatar.url }}" alt="{{ task.executer.username }}">
-                                    <div class="media-body">
-                                        <h5 class="mb-0">{{ task.executor.first_name }} {{ task.executor.last_name }}</h5>
-                                          <h6 class="account-name">{{tasl.creator.position}}</h6>
-                                    </div>
-                                </div>
-                        </div>
+<div class="media">
+    <img class="align-self-center user-avatar-lg mr-3 rounded" src="{{ task.executor.avatar.url }}"
+         alt="{{ task.executer.username }}">
+    <div class="media-body">
+        <h5 class="mb-0">{{ task.executor.first_name }} {{ task.executor.last_name }}</h5>
+        <h6 class="account-name">{{ tasl.creator.position }}</h6>
+    </div>
+</div>
+</div>
