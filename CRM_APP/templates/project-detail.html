@@ -26,7 +26,7 @@
 
 
             </div>
-            <div class="card-body p-0">
+            <div class="card-body p-2">
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered" id="task-table"  style="width:100%">
                         <thead class="bg-light">
@@ -177,7 +177,7 @@
 {% block script %}
     <script type="text/javascript">
         $(document).ready(function() {
-            $('#task-table').DataTable();
+            $('#task-table').DataTable({  "lengthChange": false});
                         } );
         //getPagination('#task-table')  ;
 
