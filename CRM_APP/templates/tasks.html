@@ -16,7 +16,7 @@
                             {% for field in filter.form.visible_fields %}
                                 <div class="col-md-auto"
                                      style="display: flex; padding-top: 0.25rem; padding-bottom: 0.25rem; padding-right: 0px;">
-                                    <label style="padding-top: 7px;">{{ field.label }}:</label>{% render_field field class="form-control" style="width: auto;" %}
+                                    <label style="padding-top: 7px;">{{ field.label }}:</label>{% render_field field class="form-control selectpicker" style="width: auto;" %}
                                 </div>
                             {% endfor %}
 
@@ -213,7 +213,11 @@
 
                                 <div class="tab-pane fade" id="pills-note-{{ task.id }}" role="tabpanel"
                                      aria-labelledby="pills-contact-tab">
+                                    {% if task.note %}
                                     <p>{{ task.note }}</p>
+                                    {% else %}
+                                        <p>No note...</p>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -318,18 +322,29 @@
                     type: 'post',
                     timeout: 3000,
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        $("#error-spiner-" + btn_id).hide();
-                        alert('not ok');
+                         $("#error-spiner-timetrack-" + btn_id).replaceWith('<div style="padding: 6px;" id="timetrack-ok-'+btn_id+'" class="alert alert-danger mb-2 mt-2" role="alert">Error. Try again.</div>');
+                         setTimeout(reset_form,timeout=5000);
+
+                            function reset_form(){
+                                 $("#collapseThree-"+btn_id).removeClass('show');
+                            $("#time-track-container-"+btn_id).show().children().each(function (index,obj) {
+                               $(this).val('');
+                            });
+
+                            $("#timetrack-ok-"+btn_id).hide()};
 
                     },
                     success: function (data) {
-                         $("#error-spiner-timetrack-" + btn_id).replaceWith('<div style="padding: 6px;" class="alert alert-success mb-2 mt-2" role="alert">Assigned.</div>');
+                         $("#error-spiner-timetrack-" + btn_id).replaceWith('<div style="padding: 6px;" id="timetrack-ok-'+btn_id+'" class="alert alert-success mb-2 mt-2" role="alert">Assigned.</div>');
+                            setTimeout(reset_form,timeout=1000);
 
+                            function reset_form(){
+                                 $("#collapseThree-"+btn_id).removeClass('show');
                             $("#time-track-container-"+btn_id).show().children().each(function (index,obj) {
-                                obj.
-                               console.log(obj);
-
+                               $(this).val('');
                             });
+
+                            $("#timetrack-ok-"+btn_id).hide()};
 
 
 
