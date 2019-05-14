@@ -290,3 +290,48 @@ def TaskAssignView(request):
                 return HttpResponse('API hit with post method',status=200)
             else:
                 return HttpResponse('Not assigned on project.', status=400)
+
+
+from django.utils import timezone
+
+@csrf_exempt
+def TaskTimetrackView(request):
+    if request.method == 'GET':
+        return HttpResponse('API hit with post method',status=400)
+
+    if request.method=='POST':
+        task_id = request.POST.get('task_id',None)
+        time_val = request.POST.get('time_val',None)
+        comment_str = request.POST.get('comment_str',None)
+
+        if task_id == None:
+            return HttpResponse('No task id.', status=400)
+
+        if time_val == None:
+            return HttpResponse('No time val.', status=400)
+
+        task = Task.objects.get(pk=task_id)
+
+        if task.project.users.filter(pk=request.user.pk).exists():
+            log = TimeLog(tracker=request.user,
+                          task=task,
+                          date=timezone.now(),
+                          comment=comment_str,
+                          time=time_val)
+            log.save()
+
+            return HttpResponse('API hit with post method', status=200)
+        else:
+            return HttpResponse('Not assigned on project.', status=400)
+
+
+
+
+        print(task_id)
+        print(time_val)
+        print(comment_str)
+        print(request.user.username)
+
+        return HttpResponse('ok',status=200)
+
+

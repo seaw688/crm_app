@@ -140,7 +140,7 @@
                             </li>
                         </ul>
 
-                        <div class="card-body" style="padding-top: 0.25rem;">
+                        <div class="card-body pb-0" style="padding-top: 0.25rem;">
 
                             <div class="tab-content" id="pills-tabContent" style="padding: 0px;">
                                 <div class="tab-pane active show" id="pills-info-{{ task.id }}" role="tabpanel"
@@ -172,6 +172,7 @@
                                     {% endif %}
 
                                     {% if task.my_time %}
+                                        <br>
                                         <span class=""><i class="far fa-clock"></i> My spent time: {{ task.my_time }} h.</span>
                                     {% endif %}
 
@@ -179,23 +180,33 @@
 
                                     <div class="card-body nopadding pt-2" style="text-align: center" id="headingThree">
                                         <h5 class="mb-0">
-                                            <button class="btn btn-outline-primary btn-xs btn-block"
-                                                    data-toggle="collapse" data-target="#collapseThree"
+                                            <button class="btn btn-outline-primary btn-xs btn-block mb-2"
+                                                    data-toggle="collapse" data-target="#collapseThree-{{ task.id }}"
                                                     aria-expanded="false" aria-controls="collapseThree">
-                                                Track time  <i class="far fa-clock"></i>
+                                                Track time <i class="far fa-clock"></i>
                                             </button>
                                         </h5>
                                     </div>
 
                                 </div>
 
-                                <div id="collapseThree" class="collapse" aria-labelledby="headingThree"  data-parent="#accordion">
-                                    <div class="card-body">
-                                        Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin
-                                        coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer
-                                        labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur
-                                        butcher vice lomo. Leggings occaecat craft beer farm-to-tabhetic synth nesciunt
-                                        you probably haven't heard of them accusamus labore sustainable VHS.
+                                <div id="collapseThree-{{ task.id }}" class="collapse" aria-labelledby="headingThree"
+                                     data-parent="#accordion">
+                                    <div class="card-body text-center pt-0 pb-0 pl-0 pr-0">
+                                        <div id="time-track-container-{{ task.id }}">
+                                        <label class="float-left">
+                                            <small>Time:</small>
+                                        </label>
+                                        <input id="track-time-fld-{{ task.id }}" class="form-control" type="number"
+                                               aria-placeholder="hrs" placeholder="hrs." step="0.5" min="0">
+                                        <label class="float-left">
+                                            <small>Time comment:</small>
+                                        </label>
+                                        <textarea class="form-control" id="time-comment-{{ task.id }}"
+                                                  rows="2"></textarea>
+                                        <a href="" class="btn btn-primary btn-sm mb-2 mt-2 track-time-btn"
+                                           value="{{ task.id }}">Track</a>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -283,6 +294,56 @@
                 });
             })
         }
+    </script>
+
+
+    <script type="text/javascript">
+        time_track();
+
+        function time_track() {
+            $(".track-time-btn").click(function (eventObject) {
+                    eventObject.stopImmediatePropagation();
+                    eventObject.preventDefault();
+                    var btn_id = $(this).attr("value");
+                    $("#time-track-container-"+btn_id).hide().after('<span id="error-spiner-timetrack-' + btn_id + '" class="dashboard-spinner spinner-xs"></span>');
+                    var time_input = $(this).siblings('input').first();
+                    var comment_input = $(this).siblings('textarea').first();
+                    var time_input_val = $(this).siblings('input').first().val();
+                    var comment_input_val = $(this).siblings('textarea').first().val();
+                    $.ajax({
+                    url: "/tasks/time-track/",
+                    data: {task_id: btn_id,
+                           time_val:time_input_val,
+                           comment_str:comment_input_val},
+                    type: 'post',
+                    timeout: 3000,
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        $("#error-spiner-" + btn_id).hide();
+                        alert('not ok');
+
+                    },
+                    success: function (data) {
+                         $("#error-spiner-timetrack-" + btn_id).replaceWith('<div style="padding: 6px;" class="alert alert-success mb-2 mt-2" role="alert">Assigned.</div>');
+
+                            $("#time-track-container-"+btn_id).show().children().each(function (index,obj) {
+                                obj.
+                               console.log(obj);
+
+                            });
+
+
+
+
+                    }
+                                    });
+
+
+
+                }
+            )
+        }
+
+
     </script>
 {% endblock %}
 
