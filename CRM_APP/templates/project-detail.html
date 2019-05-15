@@ -178,43 +178,40 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-body" style="overflow: hidden;">
-                    {% for user in project.users_list %}
-                        {{ user }}
+                <div class="card-body" style="overflow: scroll; max-height: 500px;">
 
-                    {% endfor %}
-
-                </div>
+                    <ul class="list-group">
 
 
-                <div class="card-footer">
+                        {% for user in project.users_list %}
+                            <li class="list-group-item">
 
-                    <div class="row">
-
-                        <div class="col justify-content-center">
-                            <div>
-                                <a class="btn-account" style="width: -moz-fit-content;"
-                                   href="users/{{ project.creator.username }}" role="button">
+                                <div>
+                                    <a class="btn-account" style="width: -moz-fit-content;"
+                                       href="users/{{ user.username }}" role="button">
 
 
                 <span class="user-avatar">
                     <img alt="User Avatar" class="user-avatar-lg rounded-circle" style="margin-bottom: -9px;"
-                         src="{{ project.creator.avatar.url }}">
+                         src="{{ user.avatar.url }}">
                  </span>
-                                    <div class="account-summary">
-                                        <span class="account-description">{{ project.creator.username }}</span>
-                                        <h5 class="account-name">{{ project.creator.first_name }}
-                                            {{ project.creator.last_name }}</h5>
-                                        <h6 class="account-name">{{ project.creator.position }}</h6>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
+                                        <div class="account-summary">
+                                            <span class="account-description">{{ user.username }}</span>
+                                            <h5 class="account-name">{{ user.first_name }}
+                                                {{ user.last_name }}</h5>
+                                            <h6 class="account-name">{{ user.position }}</h6>
+                                        </div>
+                                    </a>
+                                </div>
 
 
-                    </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
 
                 </div>
+
+
             </div>
         </div>
 
