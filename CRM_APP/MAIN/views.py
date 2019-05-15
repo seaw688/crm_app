@@ -279,8 +279,6 @@ class EditProjectView(UpdateView):
     template_name = 'projects-edit.html'
     slug_field = 'slug'
 
-
-
     def get_success_url(self):
         project_slug = self.object.slug
         return '/projects/view/'+project_slug+'/'

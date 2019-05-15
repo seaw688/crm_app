@@ -3,14 +3,16 @@ from .models import Project
 from slugify import slugify
 
 class ProjectForm(ModelForm):
-    slug = fields.SlugField(required=False,widget=fields.HiddenInput())
+    #slug = fields.SlugField(required=False,widget=fields.HiddenInput())
 
     class Meta:
         model = Project
-        fields = ['title','slug','description','users','logo']
+        fields = ['title','description','users','logo']
 
 
-    def clean_slug(self):
+    def clean(self):
+        super().clean()
+
         slug=self.cleaned_data['title']
         i = 0
         while i < 9999999:
@@ -20,9 +22,30 @@ class ProjectForm(ModelForm):
             else:
                 break
 
-        data = self.cleaned_data['slug']=slug
+        self.cleaned_data['slug']=slug
 
-        return  data
+
+    def save(self, commit=True):
+        project = super().save(commit=False)
+        project.slug = self.cleaned_data['slug']
+        project.save()
+        return project
+
+
+
+    # def clean_slug(self):
+    #     slug=self.cleaned_data['title']
+    #     i = 0
+    #     while i < 9999999:
+    #         i += 1
+    #         if Project.objects.filter(slug=slug).exists():
+    #             slug = slug + "-" + str(i)
+    #         else:
+    #             break
+    #
+    #     self.cleaned_data['slug']=slug
+    #     data = self.cleaned_data['slug']
+    #     return data
 
 
 
