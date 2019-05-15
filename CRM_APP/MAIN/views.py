@@ -43,6 +43,19 @@ class ProjectsDetailView(DetailView):
     template_name = "project-detail.html"
     context_object_name = 'project'
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        project = self.get_object()
+
+        task_count = project.project_tasks.all().aggregate(Count('id'))
+        task_count = task_count['id__count']
+
+        project_users = project.users.all()
+
+        context['project'].task_count = task_count
+        context['project'].users_list = project_users
+        return context
+
 
 
 #

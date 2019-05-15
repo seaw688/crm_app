@@ -14,7 +14,7 @@
                             <div class="text-center">
                                 <img src="{{ project.logo.url }}" alt="User Avatar"
                                      class="card-img-top img-fluid "
-                                     style="object-fit: cover; max-height: 130px; min-height: 130px;">
+                                     style="object-fit: cover; max-height: 155px; min-height: 155px;">
                             </div>
                         </div>
 
@@ -25,16 +25,16 @@
                             <br>
                             <p class="pt-2 mb-0">{{ project.description }}</p>
                             <p style="border-bottom: 1px solid #d2d2e4; margin-bottom: 4px;"></p>
-                            <div class="row">
+                            <div class="row ">
 
 
-                                <div class="col justify-content">
+                                <div class="col-auto pr-0 ">
                                     <div>
                                         <a class="btn-account" style="width: -moz-fit-content;"
                                            href="users/{{ project.creator.username }}" role="button">
 
 
-                <span class="user-avatar mr-0" >
+                <span class="user-avatar mr-0">
                     <img alt="User Avatar" class="user-avatar-lg rounded-circle" style="margin-bottom: -9px;"
                          src="{{ project.creator.avatar.url }}">
                  </span>
@@ -52,15 +52,6 @@
                                     </div>
                                 </div>
 
-                                  <div class="col justify-content">
-                                    dsdsdsadsadsadas
-                                </div>
-
-
-
-
-
-
 
                             </div>
 
@@ -76,129 +67,122 @@
 
     <div class="row">
 
-    <div class="col-xl-9 col-lg-12 col-md-6 col-sm-12 col-12">
-        <div class="card">
+        <div class="col-xl-9 col-lg-12 col-md-6 col-sm-12 col-12">
+            <div class="card">
 
-            <div class="card-header">
-                <div class="row">
-                    <div class="col">
-                        <h4 class="card-header-title">Tasks:</h4>
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col">
+                            <h4 class="card-header-title">Tasks:</h4>
 
+
+                        </div>
+                        <div class="col">
+                            <a href="/tasks/add/{{ task.slug }}" class="btn btn-primary btn-xs float-right">Create new
+                                task</a>
+
+                        </div>
 
                     </div>
-                    <div class="col">
-                        <a href="/tasks/add/{{ task.slug }}" class="btn btn-primary btn-xs float-right">Create new
-                            task</a>
 
-                    </div>
 
                 </div>
+                <div class="card-body p-2">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered" id="task-table" style="width:100%">
+                            <thead class="bg-light">
+                            <tr class="border-0">
+                                <th class="border-0">#</th>
+                                <th class="border-0">Title</th>
+                                <th class="border-0">Kind</th>
+                                <th class="border-0">Status</th>
+                                <th class="border-0">Priority</th>
+                                <th class="border-0">Executor</th>
+                                <th class="border-0">Deadline</th>
+                                <th class="border-0">Edit</th>
 
-
-            </div>
-            <div class="card-body p-2">
-                <div class="table-responsive">
-                    <table class="table table-striped table-bordered" id="task-table" style="width:100%">
-                        <thead class="bg-light">
-                        <tr class="border-0">
-                            <th class="border-0">#</th>
-                            <th class="border-0">Title</th>
-                            <th class="border-0">Kind</th>
-                            <th class="border-0">Status</th>
-                            <th class="border-0">Priority</th>
-                            <th class="border-0">Executor</th>
-                            <th class="border-0">Deadline</th>
-                            <th class="border-0">Edit</th>
-
-
-                        </tr>
-                        </thead>
-                        <tbody>
-
-                        {% for task in project.project_tasks.all %}
-                            <tr>
-                                <td>{{ task.id }}</td>
-                                <td><a href="/tasks/view/{{ task.slug }}/"> {{ task.title }}</a></td>
-                                <td>{{ task.kind }} </td>
-                                <td> {% if task.status == "TO-DO" %}
-                                    <span class="badge badge-info float-left">{{ task.get_status_display }}</span>
-                                {% elif task.status == "IN-PROGRESS" %}
-                                    <span class="badge badge-primary float-left">{{ task.get_status_display }}</span>
-
-                                {% elif task.status == "DONE" %}
-                                    <span class="badge badge-success float-left">{{ task.get_status_display }}</span>
-                                {% elif task.status == "CLOSED" %}
-                                    <span class="badge badge-dark float-left">{{ task.get_status_display }}</span>
-
-                                {% endif %}
-                                </td>
-                                <td>
-                                    <small>{% if task.priority == "NORMAL" %}
-                                        <span class="float-left" style="padding-left: 10px;"><span
-                                                class="badge-dot badge-primary"></span>{{ task.priority }}</span>
-                                    {% elif task.priority == "HIGH" %}
-                                        <span class="float-left" style="padding-left: 10px;"><span
-                                                class="badge-dot badge-warning"></span>{{ task.priority }}</span>
-                                    {% elif task.priority == "URGENT" %}
-                                        <span class="float-left" style="padding-left: 10px;"><span
-                                                class="badge-dot badge-danger"></span>{{ task.priority }}</span>
-                                    {% elif task.priority == "LOW" %}
-                                        <span class="float-left" style="padding-left: 10px;"><span
-                                                class="badge-dot badge-success"></span>{{ task.priority }}</span>
-                                    {% endif %}</small>
-                                </td>
-                                <td>{{ task.executor }}</td>
-                                <td>{{ task.deadline }}</td>
-                                <td><a href="/tasks/edit/{{ task.slug }}/" class="btn btn-primary btn-xs">Edit</a></td>
 
                             </tr>
+                            </thead>
+                            <tbody>
+
+                            {% for task in project.project_tasks.all %}
+                                <tr>
+                                    <td>{{ task.id }}</td>
+                                    <td><a href="/tasks/view/{{ task.slug }}/"> {{ task.title }}</a></td>
+                                    <td>{{ task.kind }} </td>
+                                    <td> {% if task.status == "TO-DO" %}
+                                        <span class="badge badge-info float-left">{{ task.get_status_display }}</span>
+                                    {% elif task.status == "IN-PROGRESS" %}
+                                        <span class="badge badge-primary float-left">{{ task.get_status_display }}</span>
+
+                                    {% elif task.status == "DONE" %}
+                                        <span class="badge badge-success float-left">{{ task.get_status_display }}</span>
+                                    {% elif task.status == "CLOSED" %}
+                                        <span class="badge badge-dark float-left">{{ task.get_status_display }}</span>
+
+                                    {% endif %}
+                                    </td>
+                                    <td>
+                                        <small>{% if task.priority == "NORMAL" %}
+                                            <span class="float-left" style="padding-left: 10px;"><span
+                                                    class="badge-dot badge-primary"></span>{{ task.priority }}</span>
+                                        {% elif task.priority == "HIGH" %}
+                                            <span class="float-left" style="padding-left: 10px;"><span
+                                                    class="badge-dot badge-warning"></span>{{ task.priority }}</span>
+                                        {% elif task.priority == "URGENT" %}
+                                            <span class="float-left" style="padding-left: 10px;"><span
+                                                    class="badge-dot badge-danger"></span>{{ task.priority }}</span>
+                                        {% elif task.priority == "LOW" %}
+                                            <span class="float-left" style="padding-left: 10px;"><span
+                                                    class="badge-dot badge-success"></span>{{ task.priority }}</span>
+                                        {% endif %}</small>
+                                    </td>
+                                    <td>{{ task.executor }}</td>
+                                    <td>{{ task.deadline }}</td>
+                                    <td><a href="/tasks/edit/{{ task.slug }}/" class="btn btn-primary btn-xs">Edit</a>
+                                    </td>
+
+                                </tr>
 
 
 
-                        {% endfor %}
+                            {% endfor %}
 
 
-                        </tbody>
-                    </table>
-                    <!--  <nav aria-label="Page navigation example">
-                          <ul class="pagination">
-                              <li class="page-item" data-page="prev"><a class="page-link" href="#">Previous</a></li>
+                            </tbody>
+                        </table>
+                        <!--  <nav aria-label="Page navigation example">
+                              <ul class="pagination">
+                                  <li class="page-item" data-page="prev"><a class="page-link" href="#">Previous</a></li>
 
-                              <li class="page-item" data-page="next" id="next"><a class="page-link" href="#">Next</a></li>
+                                  <li class="page-item" data-page="next" id="next"><a class="page-link" href="#">Next</a></li>
 
-                          </ul>
-                      </nav>-->
+                              </ul>
+                          </nav>-->
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="col-xl-3 col-lg-12 col-md-6 col-sm-12 col-12">
-        <div class="card">
-            <div class="card-header">
-                <div class="row">
-                    <div class="col">
-                        <h4 class="card-header-title">{{ project.title }}</h4>
-
-
-                    </div>
-                    <div class="col">
-                        <a href="/projects/edit/{{ project.slug }}" class="btn btn-primary btn-xs float-right">Edit</a>
-
-                    </div>
-
-                </div>
-                <div class="card-body ">
+        <div class="col-xl-3 col-lg-12 col-md-6 col-sm-12 col-12">
+            <div class="card">
+                <div class="card-header">
                     <div class="row">
-                        <img alt="..." class="card-img-top img-fluid "
-                             src="{{ project.logo.url }}"
-                             style="object-fit: cover; max-height: 130px; min-height: 130px;">
+                        <div class="col">
+                            <h4 class="card-header-title">Users</h4>
+                        </div>
+                        <div class="col">
+                            <a href="/projects/edit/{{ project.slug }}"
+                               class="btn btn-primary btn-xs float-right">Edit</a>
+                        </div>
                     </div>
-
-
                 </div>
                 <div class="card-body" style="overflow: hidden;">
-                    <div class="card-text">{{ project.description }}</div>
+                    {% for user in project.users_list %}
+                        {{ user }}
+
+                    {% endfor %}
 
                 </div>
 
@@ -218,9 +202,6 @@
                          src="{{ project.creator.avatar.url }}">
                  </span>
                                     <div class="account-summary">
-                                        <h6 style="margin-bottom: 0px;">Created {{ project.created|date:"d F Y" }}
-                                            by:</h6>
-
                                         <span class="account-description">{{ project.creator.username }}</span>
                                         <h5 class="account-name">{{ project.creator.first_name }}
                                             {{ project.creator.last_name }}</h5>
