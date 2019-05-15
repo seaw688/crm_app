@@ -248,7 +248,7 @@ class TasksView(ListView):
 
         return context
 
-from .forms import ProjectForm
+from .forms import ProjectForm, TaskForm
 
 # @method_decorator(login_required, name='dispatch')
 # @method_decorator(group_required(('ADMIN'), raise_exception=True), name='dispatch')
@@ -268,6 +268,33 @@ class CreateProjectView(View):
         else:
             return render(self.request, template_name='projects-add.html',
                           context={'form': form})
+
+
+
+
+
+
+class CreateTaskView(View):
+
+    def get(self, request, *args, **kwargs):
+        form = TaskForm()
+        return render(self.request,template_name='task-add.html',
+                      context={'form':form})
+
+
+    def post(self,request,*args,**kwargs):
+        form = TaskForm(data=self.request.POST,files=self.request.FILES)
+        if form.is_valid():
+            task_instance = form.save()
+            return redirect('/task/view/'+task_instance.slug+'/',permanent=True)
+        else:
+            return render(self.request, template_name='task-add.html',
+                          context={'form': form})
+
+
+
+
+
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -331,18 +358,10 @@ def TaskTimetrackView(request):
                           time=time_val)
             log.save()
 
-            return HttpResponse('API hit with post method', status=200)
+            return HttpResponse('All is ok.', status=200)
         else:
             return HttpResponse('Not assigned on project.', status=400)
 
-
-
-
-        print(task_id)
-        print(time_val)
-        print(comment_str)
-        print(request.user.username)
-
-        return HttpResponse('ok',status=200)
+    return HttpResponse('Wrong HTTP method.', status=400)
 
 
