@@ -58,6 +58,19 @@ class ProjectsDetailView(DetailView):
 
 
 
+
+class TaskDetailView(DetailView):
+    model = Task
+    template_name = "task-detail.html"
+    context_object_name = 'task'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        task = self.get_object()
+        return context
+
+
+
 #
 # TASK_STATUSES = (
 #     ("TO-DO", "To do"),
