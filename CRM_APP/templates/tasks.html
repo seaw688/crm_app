@@ -53,7 +53,6 @@
                             <span class="badge badge-success float-left">{{ task.get_status_display }}</span>
                         {% elif task.status == "CLOSED" %}
                             <span class="badge badge-dark float-left">{{ task.get_status_display }}</span>
-
                         {% endif %}
 
 
@@ -225,7 +224,7 @@
                         <div class="card-footer pb-0 pt-0">
 
                             {% if task.executor != None %}
-                                <div class="media">
+                                <div class="media" style="padding-bottom: 10px;">
                                     <div class="align-self-center user-avatar-lg mr-3 rounded">
                                         <a href="/users/{{ task.executor.username }}">
                                             <img src="{{ task.executor.avatar.url }}" alt="{{ task.executer.username }}"
@@ -240,7 +239,10 @@
                                             </h6>
                                             <h5 class="mb-0"
                                                 style="line-height: 9px;">{{ task.executor.first_name }} {{ task.executor.last_name }}</h5>
+
+                                            {% if task.creator.position %}
                                             <h6 class="account-name mb-2">{{ task.creator.position }}</h6>
+                                                {% endif %}
                                         </a>
                                     </div>
                                 </div>

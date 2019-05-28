@@ -7,18 +7,130 @@
 <div class="row">
 
 
-<div class="col-xl-8">
+<div class="col-xl-3">
 <div class="card">
 
-   <h5 class="card-header card-title"># Task: {{ task.title }}</h5>
+       <small class="text-muted card-header"><span style="position: absolute;margin-top: 5px;"><a href="/projects/view/{{ task.project.slug }}/"><i class="fas fa-server"></i> {{ task.project.title }}</a> /<a href="/tasks/view/{{ task.slug }}/"> <i class="fas fa-list"></i>
+                                    task: {{ task.id }}
+                                </a> </span> <a href="/projects/edit/{{ project.slug }}"
+                               class="btn btn-primary btn-xs float-right">Edit</a>   </small>
+
+    <h5 class="card-body card-title mb-0"># Task: {{ task.title }}</h5>
+
+
+
+
+
+    <div class="card-footer pb-0 pt-0">
+                    <div class="row">
+
+                    <div class="col justify-content-center ">
+
+
+
+                            {% if task.executor != None %}
+                                <div class="media">
+                                    <div class="align-self-center user-avatar-lg mr-3 rounded">
+                                        <a href="/users/{{ task.executor.username }}">
+                                            <img src="{{ task.executor.avatar.url }}" alt="{{ task.executer.username }}"
+                                                 class="align-self-center rounded-circle user-avatar-lg">
+                                        </a>
+                                    </div>
+                                    <div class="media-body">
+                                        <a href="/users/{{ task.executor.username }}">
+                                            <h5 class="mb-0">Assigned on:</h5>
+                                            <h6 class="account-description mb-0"><a
+                                                    href="/users/{{ task.executor.username }}">{{ task.executor.username }}</a>
+                                            </h6>
+                                            <h5 class="mb-0"
+                                                style="line-height: 9px;">{{ task.executor.first_name }} {{ task.executor.last_name }}</h5>
+                                            <h6 class="account-name mb-2">{{ task.creator.position }}</h6>
+                                        </a>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="text-center">
+                                    <a href="" class="btn btn-primary btn-sm mb-2 mt-2 assign-btn"
+                                       id="{{ task.id }}">Assign on me</a>
+                                </div>
+                            {% endif %}
+
+
+                    </div>
+                    </div>
+
+
+
+
+
+                        </div>
 
 
 
 </div>
 
+
+<div class="row">
+<div class="col-xl-6">
+ <div class="card border-3 border-top border-top-primary">
+                                    <div class="card-body">
+                                        <h5 class="text-muted">Status</h5>
+                                        <div class="metric-value d-inline-block">
+                                             {% if task.status == "TO-DO" %}
+                            <span class="badge badge-info float-left">{{ task.get_status_display }}</span>
+                        {% elif task.status == "IN-PROGRESS" %}
+                            <span class="badge badge-primary float-left">{{ task.get_status_display }}</span>
+
+                        {% elif task.status == "DONE" %}
+                            <span class="badge badge-success float-left">{{ task.get_status_display }}</span>
+                        {% elif task.status == "CLOSED" %}
+                            <span class="badge badge-dark float-left">{{ task.get_status_display }}</span>
+                        {% endif %}
+
+                                        </div>
+
+                                    </div>
+ </div>
 </div>
 
+
+<div class="col-xl-6">
+
+     <div class="card border-3 border-top border-top-primary">
+                                    <div class="card-body">
+                                        <h5 class="text-muted">Priority</h5>
+                                        <div class="metric-value d-inline-block">
+
+
+                        {% if task.priority == "NORMAL" %}
+                            <span class="float-left" ><span
+                                    class="badge-dot badge-primary"></span>{{ task.get_priority_display }}</span>
+                        {% elif task.priority == "HIGH" %}
+                            <span class="float-left" ><span
+                                    class="badge-dot badge-warning"></span>{{ task.get_priority_display }}</span>
+                        {% elif task.priority == "URGENT" %}
+                            <span class="float-left" ><span
+                                    class="badge-dot badge-danger"></span>{{ task.get_priority_display }}</span>
+                        {% elif task.priority == "LOW" %}
+                            <span class="float-left" ><span
+                                    class="badge-dot badge-success"></span>{{ task.get_priority_display }}</span>
+                        {% endif %}
+                                        </div>
+
+                                    </div>
+ </div>
 </div>
+
+
+</div>
+
+                            </div>
+
+
+</div>
+
+
+
 
 
 
