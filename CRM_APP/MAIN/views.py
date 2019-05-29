@@ -67,6 +67,17 @@ class TaskDetailView(DetailView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         task = self.get_object()
+        task_files = task.task_files.all().aggregate(Count('id'))
+        task.files_count = task_files['id__count']
+        context['files_count'] = task.files_count
+
+        comments = task.task_comments.all().aggregate(Count('id'))
+        task.comments_count = comments['id__count']
+
+        context['comments_count']=task.comments_count
+
+
+
         return context
 
 

@@ -4,28 +4,27 @@
 
 {% block body %}
 
-<div class="row">
+    <div class="row">
 
 
-<div class="col-xl-3">
-<div class="card">
+        <div class="col-xl-3 col-md-6 ">
+            <div class="card">
 
-       <small class="text-muted card-header"><span style="position: absolute;margin-top: 5px;"><a href="/projects/view/{{ task.project.slug }}/"><i class="fas fa-server"></i> {{ task.project.title }}</a> /<a href="/tasks/view/{{ task.slug }}/"> <i class="fas fa-list"></i>
+                <small class="text-muted card-header"><span style="position: absolute;margin-top: 5px;"><a
+                        href="/projects/view/{{ task.project.slug }}/"><i
+                        class="fas fa-server"></i> {{ task.project.title }}</a> /<a href="/tasks/view/{{ task.slug }}/"> <i
+                        class="fas fa-list"></i>
                                     task: {{ task.id }}
                                 </a> </span> <a href="/projects/edit/{{ project.slug }}"
-                               class="btn btn-primary btn-xs float-right">Edit</a>   </small>
+                                                class="btn btn-primary btn-xs float-right">Edit</a></small>
 
-    <h5 class="card-body card-title mb-0"># Task: {{ task.title }}</h5>
-
-
+                <h5 class="card-body card-title mb-0"># Task: {{ task.title }}</h5>
 
 
-
-    <div class="card-footer pb-0 pt-0">
+                <div class="card-footer pb-0 pt-0">
                     <div class="row">
 
-                    <div class="col justify-content-center ">
-
+                        <div class="col justify-content-center ">
 
 
                             {% if task.executor != None %}
@@ -56,78 +55,142 @@
                             {% endif %}
 
 
+                        </div>
                     </div>
-                    </div>
 
 
+                </div>
 
 
+            </div>
 
+
+            <div class="row">
+
+
+                <div class="col-xl-6">
+
+                    <div class="card border-3 border-top border-top-primary">
+                        <div class="card-body">
+                            <h6 class="text-muted">Priority
+                                {% if task.priority == "NORMAL" %}
+                                    <span class="float-right"><span
+                                            class="badge-dot badge-primary"></span>{{ task.get_priority_display }}</span>
+                                {% elif task.priority == "HIGH" %}
+                                    <span class="float-right"><span
+                                            class="badge-dot badge-warning"></span>{{ task.get_priority_display }}</span>
+                                {% elif task.priority == "URGENT" %}
+                                    <span class="float-right"><span
+                                            class="badge-dot badge-danger"></span>{{ task.get_priority_display }}</span>
+                                {% elif task.priority == "LOW" %}
+                                    <span class="float-right"><span
+                                            class="badge-dot badge-success"></span>{{ task.get_priority_display }}</span>
+                                {% endif %}
+
+                            </h6>
                         </div>
 
+                    </div>
+                </div>
 
 
-</div>
+                <div class="col-xl-6">
+                    <div class="card border-3 border-top border-top-primary">
+                        <div class="card-body">
+                            <h6 class="text-muted">Status
+                                {% if task.status == "TO-DO" %}
+                                    <span class="badge badge-info float-right">{{ task.get_status_display }}</span>
+                                {% elif task.status == "IN-PROGRESS" %}
+                                    <span class="badge badge-primary float-right">{{ task.get_status_display }}</span>
+
+                                {% elif task.status == "DONE" %}
+                                    <span class="badge badge-success float-right">{{ task.get_status_display }}</span>
+                                {% elif task.status == "CLOSED" %}
+                                    <span class="badge badge-dark float-right">{{ task.get_status_display }}</span>
+                                {% endif %}
+
+                            </h6>
+                        </div>
+                    </div>
+                </div>
 
 
-<div class="row">
-<div class="col-xl-6">
- <div class="card border-3 border-top border-top-primary">
-                                    <div class="card-body">
-                                        <h5 class="text-muted">Status</h5>
-                                        <div class="metric-value d-inline-block">
-                                             {% if task.status == "TO-DO" %}
-                            <span class="badge badge-info float-left">{{ task.get_status_display }}</span>
-                        {% elif task.status == "IN-PROGRESS" %}
-                            <span class="badge badge-primary float-left">{{ task.get_status_display }}</span>
+                <div class="col-xl-6">
+                    <div class="card border-3 border-top border-top-primary">
+                        <div class="card-body">
+                            <h6 class="text-muted">Kind
+                                {% if task.kind == "FEATURE" %}
+                                    <span class="float-right">Feature <i class="fas fa-tag"></i> </span>
+                                {% elif task.kind == "BUG" %}
+                                    <span class="float-right">Bug <i class="fas fa-bug"></i> </span>
+                                {% else %}
+                                    <span class="float-right">Task <i class="fas fa-check"></i> </span>
+                                {% endif %}
 
-                        {% elif task.status == "DONE" %}
-                            <span class="badge badge-success float-left">{{ task.get_status_display }}</span>
-                        {% elif task.status == "CLOSED" %}
-                            <span class="badge badge-dark float-left">{{ task.get_status_display }}</span>
-                        {% endif %}
+                            </h6>
+                        </div>
+                    </div>
+                </div>
 
+                <div class="col-xl-6">
+                    <div class="card border-3 border-top border-top-primary">
+                        <div class="card-body">
+                            <h6 class="text-muted float-left">Attachments <i class="fas fa-file"> {{ files_count }}</i>
+                            </h6>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <div class="col-xl-3 col-lg-6 card">
+
+            <div class="card-header">
+            <h5 class="card-title" style="margin-bottom: 2px;">Comments <i class="fas fa-bullhorn"> {{ comments_count }}</i> </h5>
+            </div>
+
+            <div class="card-body">
+                <ul class="list-unstyled">
+                                    <li class="media">
+                                        <img class=" mr-3 user-avatar-lg rounded" src="../assets/images/avatar-3.jpg" alt="Generic placeholder image">
+                                        <div class="media-body">
+                                            <h5 class="mt-0 mb-1">List-based media object</h5> Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
                                         </div>
-
-                                    </div>
- </div>
-</div>
-
-
-<div class="col-xl-6">
-
-     <div class="card border-3 border-top border-top-primary">
-                                    <div class="card-body">
-                                        <h5 class="text-muted">Priority</h5>
-                                        <div class="metric-value d-inline-block">
-
-
-                        {% if task.priority == "NORMAL" %}
-                            <span class="float-left" ><span
-                                    class="badge-dot badge-primary"></span>{{ task.get_priority_display }}</span>
-                        {% elif task.priority == "HIGH" %}
-                            <span class="float-left" ><span
-                                    class="badge-dot badge-warning"></span>{{ task.get_priority_display }}</span>
-                        {% elif task.priority == "URGENT" %}
-                            <span class="float-left" ><span
-                                    class="badge-dot badge-danger"></span>{{ task.get_priority_display }}</span>
-                        {% elif task.priority == "LOW" %}
-                            <span class="float-left" ><span
-                                    class="badge-dot badge-success"></span>{{ task.get_priority_display }}</span>
-                        {% endif %}
+                                    </li>
+                                    <li class="media my-4">
+                                        <img class=" mr-3 user-avatar-lg rounded" src="../assets/images/avatar-4.jpg" alt="Generic placeholder image">
+                                        <div class="media-body">
+                                            <h5 class="mt-0 mb-1">List-based media object</h5> Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                   . Fusce condimentum nunc ac nisi vulputate fri. Fusce condimentum nunc ac nisi vulputate fri                     . Fusce condimentum nunc ac nisi vulputate fri. Fusce condimentum nunc ac nisi vulputate fri. Fusce condimentum nunc ac nisi vulputate fri</div>
+                                    </li>
+                                    <li class="media">
+                                        <img class=" mr-3 user-avatar-lg rounded" src="../assets/images/avatar-2.jpg" alt="Generic placeholder image">
+                                        <div class="media-body">
+                                            <h5 class="mt-0 mb-1">List-based media object</h5> Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
                                         </div>
-
-                                    </div>
- </div>
-</div>
+                                    </li>
+                                </ul>
 
 
-</div>
-
-                            </div>
 
 
-</div>
+
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    </div>
 
 
 
