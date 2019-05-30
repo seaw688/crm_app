@@ -57,8 +57,10 @@ class ProjectsDetailView(DetailView):
         return context
 
 
+def map(x, in_min, in_max, out_min, out_max):
+    return int((x-in_min) * (out_max-out_min) / (in_max-in_min) + out_min)
 
-
+from django.db.models import Max
 class TaskDetailView(DetailView):
     model = Task
     template_name = "task-detail.html"
@@ -77,6 +79,22 @@ class TaskDetailView(DetailView):
         context['comments_count']=task.comments_count
         context['comments'] = task.task_comments.all()
 
+
+
+        time_logs = task.time_set.all()
+        max_time = task.time_set.all().aggregate(Max('time'))
+        max_time = max_time['time__max']
+        print(time_logs)
+        print(max_time)
+
+        estim =60
+        user = 80
+        user_1 = 20
+
+        for time_log in time_logs:
+            time_log.bar=map(time_log.time,0,max_time,0,100)
+
+        context['time_logs']=time_logs
 
         return context
 
