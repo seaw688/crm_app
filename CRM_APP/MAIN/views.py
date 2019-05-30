@@ -80,21 +80,22 @@ class TaskDetailView(DetailView):
         context['comments'] = task.task_comments.all()
 
 
+        time_bars = list()
+        user_time_logs = task.time_set.all().values('tracker').annotate(Sum('time'))
+        time_sum_max = task.time_set.all().values('tracker').annotate(time_sum=Sum('time')).aggregate(Max('time_sum'))
+        time_sum_max = time_sum_max['time_sum__max']
+        for log in user_time_logs:
+            entity = dict()
+            try:
+                entity['user']=UserModel.objects.get(id=log['tracker'])
+                entity['time']=log['time__sum']
+                entity['bar']= map(log['time__sum'],0,time_sum_max,0,100)
+                entity['tracks'] = task.time_set.filter(tracker=log['tracker'])
+                time_bars.append(entity)
+            except UserModel.DoesNotExist:
+                pass
 
-        time_logs = task.time_set.all()
-        max_time = task.time_set.all().aggregate(Max('time'))
-        max_time = max_time['time__max']
-        print(time_logs)
-        print(max_time)
-
-        estim =60
-        user = 80
-        user_1 = 20
-
-        for time_log in time_logs:
-            time_log.bar=map(time_log.time,0,max_time,0,100)
-
-        context['time_logs']=time_logs
+        context['time_bars']=time_bars
 
         return context
 
