@@ -14,6 +14,8 @@ class ProjectForm(ModelForm):
         super().clean()
 
         slug=self.cleaned_data['title']
+        slug = slugify(slug)
+
         i = 0
         while i < 9999999:
             i += 1
@@ -45,6 +47,7 @@ class TaskForm(ModelForm):
     def clean(self):
         super().clean()
         slug = self.cleaned_data['title']
+        slug = slugify(slug)
         i = 0
         while i < 9999999:
             i += 1
@@ -59,6 +62,7 @@ class TaskForm(ModelForm):
         task.slug = self.cleaned_data['slug']
         task.save()
         return task
+
 
 
 

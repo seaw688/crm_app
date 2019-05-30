@@ -334,6 +334,18 @@ class EditProjectView(UpdateView):
         project_slug = self.object.slug
         return '/projects/view/'+project_slug+'/'
 
+
+class EditTaskView(UpdateView):
+    model = Task
+    form_class = TaskForm
+    template_name = 'task-edit.html'
+    slug_field = 'slug'
+
+    def get_success_url(self):
+        task_slug = self.object.slug
+        return '/tasks/view/'+task_slug+'/'
+
+
 @csrf_exempt
 def TaskAssignView(request):
     if request.method == 'GET':
