@@ -75,7 +75,7 @@ class TaskDetailView(DetailView):
         task.comments_count = comments['id__count']
 
         context['comments_count']=task.comments_count
-
+        context['comments'] = task.task_comments.all()
 
 
         return context

@@ -38,11 +38,9 @@
                                     <div class="media-body">
                                         <a href="/users/{{ task.executor.username }}">
                                             <h5 class="mb-0">Assigned on:</h5>
-                                            <h6 class="account-description mb-0"><a
-                                                    href="/users/{{ task.executor.username }}">{{ task.executor.username }}</a>
+                                            <h6 class="account-description mb-0"><a href="/users/{{ task.executor.username }}">{{ task.executor.username }}</a>
                                             </h6>
-                                            <h5 class="mb-0"
-                                                style="line-height: 9px;">{{ task.executor.first_name }} {{ task.executor.last_name }}</h5>
+                                            <h5 class="mb-0" style="line-height: 9px;">{{ task.executor.first_name }} {{ task.executor.last_name }}</h5>
                                             <h6 class="account-name mb-2">{{ task.creator.position }}</h6>
                                         </a>
                                     </div>
@@ -155,34 +153,29 @@
             <h5 class="card-title" style="margin-bottom: 2px;">Comments <i class="fas fa-bullhorn"> {{ comments_count }}</i> </h5>
             </div>
 
+            <div class="card-body" style="word-break: break-all;overflow: auto; max-height: 345px;">
+                <ul class="list-group">
+
+                                    {% for comment in comments %}
+
+                                    <li class="media list-group-item">
+                                        <img class=" mr-3 user-avatar-lg rounded-circle" src="{{ comment.commentator.avatar.url }}" alt="Generic placeholder image">
+                                        <div class="media-body">
+
+                                            <h5 class="card-title mb-1 text-truncate"><a href="user-profile.html">{{ comment.commentator.first_name }} {{comment.commentator.last_name }}</a> </h5>
+                                            <h6 class="card-subtitle text-muted mb-1"> {{ comment.created }}</h6>
+                                            <span>{{ comment.text }}</span>
+                                        </div>
+                                    </li>
+
+                                    {% endfor %}
+
+                </ul>
+            </div>
+
             <div class="card-body">
-                <ul class="list-unstyled">
-                                    <li class="media">
-                                        <img class=" mr-3 user-avatar-lg rounded" src="../assets/images/avatar-3.jpg" alt="Generic placeholder image">
-                                        <div class="media-body">
-                                            <h5 class="mt-0 mb-1">List-based media object</h5> Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                                        </div>
-                                    </li>
-                                    <li class="media my-4">
-                                        <img class=" mr-3 user-avatar-lg rounded" src="../assets/images/avatar-4.jpg" alt="Generic placeholder image">
-                                        <div class="media-body">
-                                            <h5 class="mt-0 mb-1">List-based media object</h5> Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                   . Fusce condimentum nunc ac nisi vulputate fri. Fusce condimentum nunc ac nisi vulputate fri                     . Fusce condimentum nunc ac nisi vulputate fri. Fusce condimentum nunc ac nisi vulputate fri. Fusce condimentum nunc ac nisi vulputate fri</div>
-                                    </li>
-                                    <li class="media">
-                                        <img class=" mr-3 user-avatar-lg rounded" src="../assets/images/avatar-2.jpg" alt="Generic placeholder image">
-                                        <div class="media-body">
-                                            <h5 class="mt-0 mb-1">List-based media object</h5> Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                                        </div>
-                                    </li>
-                                </ul>
 
-
-
-
-
-
-
+                <textarea class="form-control" placeholder="Type message" rows="1"></textarea>
             </div>
 
         </div>
