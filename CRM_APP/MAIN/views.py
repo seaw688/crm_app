@@ -79,6 +79,9 @@ class TaskDetailView(DetailView):
         context['comments_count']=task.comments_count
         context['comments'] = task.task_comments.all()
 
+        all_time = task.time_set.all().aggregate(Sum('time'))
+        all_time = all_time['time__sum']
+        context['all_time'] =all_time
 
         time_bars = list()
         user_time_logs = task.time_set.all().values('tracker').annotate(Sum('time'))
