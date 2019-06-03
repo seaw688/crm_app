@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.views import View
 from django.views.generic import ListView, DetailView, UpdateView
 from django.shortcuts import render, redirect
-from MAIN.models import Task, Project, TimeLog
+from MAIN.models import Task, Project, TimeLog, TaskComment
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from MAIN.utils import group_required
@@ -423,3 +423,40 @@ def TaskTimetrackView(request):
     return HttpResponse('Wrong HTTP method.', status=400)
 
 
+
+
+
+@csrf_exempt
+def TaskCommentView(request):
+    if request.method == 'GET':
+        return HttpResponse('API hit with GET method. POST only.',status=400)
+
+    if request.user.is_anonymous:
+        return HttpResponse('Need login.',status=400)
+
+
+    if request.method=='POST':
+        task_id = request.POST.get('task_id',None)
+        comment = request.POST.get('comment',None)
+
+        if task_id == None:
+            return HttpResponse('No task id.', status=400)
+
+        if comment == None or comment=='':
+            return HttpResponse('No time val.', status=400)
+
+
+
+        task = Task.objects.get(pk=task_id)
+
+        comment = TaskComment(text=comment,created=timezone.now(),task=task,commentator=request.user)
+
+        if task.project.users.filter(pk=request.user.pk).exists():
+
+            comment.save()
+
+            return HttpResponse('All is ok.', status=200)
+        else:
+            return HttpResponse('Not assigned on project.', status=400)
+
+    return HttpResponse('Wrong HTTP method.', status=400)

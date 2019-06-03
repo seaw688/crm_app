@@ -2,7 +2,7 @@ from django.urls import path,re_path
 from MAIN.views import IndexView, ProjectsView, ProjectsDetailView,\
                     TasksView,CreateProjectView,\
                     EditProjectView, TaskAssignView,\
-                    TaskTimetrackView, CreateTaskView,TaskDetailView,EditTaskView
+                    TaskTimetrackView, CreateTaskView,TaskDetailView,EditTaskView,TaskCommentView
 urlpatterns = [
     path('index/', IndexView.as_view()),
 
@@ -20,5 +20,6 @@ urlpatterns = [
 
     path('tasks/assign/', TaskAssignView, name='tasks_assign_api'),
     path('tasks/time-track/', TaskTimetrackView, name='tasks_timetrack_api'),
+    path('tasks/comment/', TaskCommentView, name='tasks_comment_api'),
 
 ]
